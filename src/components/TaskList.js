@@ -1,29 +1,13 @@
 import React from 'react'
+import TaskElement from '../TaskElement';
 
-const list = [
-    {
-        'id': 1,
-        'text': 'Learning ReactJS',
-        'date': '2022/Feb/2',
-        'reminder': true
-    },
-    {
-        'id': 2,
-        'text': 'Jogging',
-        'date': '2022/Feb/6',
-        'reminder': true
-    },
-    {
-        'id': 3,
-        'text': 'Cooking',
-        'date': '2022/Feb/7',
-        'reminder': false
-    }
-]
-const TaskList = () => {
+const TaskList = (props) => {
     return (
         <div>
-
+            {props.taskList.map((oneTask) => (
+                // <h3 key={taskElement.id}> {taskElement.text} </h3>
+                <TaskElement key={oneTask.id} task={oneTask} />
+            ))}
         </div>
     )
 }

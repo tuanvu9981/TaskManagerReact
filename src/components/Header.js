@@ -38,7 +38,7 @@ const Header = ({ title }) => {
 
     return (
         <header className='header'>
-            <h2>From Task Watcher: Hello, {title}</h2>
+            <h2>From Task Watcher : Hello, {title}</h2>
             <Button color='green' name='Add' onClick={onClick} />
         </header>
     )
