@@ -30,16 +30,16 @@ import Button from './Button'
 // }
 
 /***** Passing Integer  *****/
-const Header = ({ title }) => {
-
-    const onClick = () => {
-        console.log('Click')
-    }
+const Header = ({ title, onAdd, showAdd }) => {
 
     return (
         <header className='header'>
-            <h2>From Task Watcher : Hello, {title}</h2>
-            <Button color='green' name='Add' onClick={onClick} />
+            <h2>Hello, {title}</h2>
+            <Button
+                color={showAdd ? 'red' : 'green'}
+                name={showAdd ? 'Close' : 'Add'}
+                onClick={onAdd}
+            />
         </header>
     )
 }
