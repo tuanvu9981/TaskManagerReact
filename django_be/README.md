@@ -1,16 +1,19 @@
 ### After install python3 (3.6), pip, django 
+
 ---
 #### Check Django version
 ```
 python3 -m django --version
 >>> 3.1.3
 ```
+
 ---
 #### Create a Django project 
 ```
 django-admin startproject django_be
 ```
 * This will create a folder called **django_be**, containing **settings.py**, **urls.py**, ...
+
 ---
 #### Create a Django app
 ```
@@ -44,8 +47,13 @@ django-admin startproject django_be
     ├── tests.py
     └── views.py
 ```
-
+---
 #### Django server automatically run at port 8000. Start server with: 
 ```
 ~ /django_be $ python3 manage.py runserver
 ```
+
+--- 
+#### Detailed information about each file in Django, check: 
+* [First Steps with Django](https://realpython.com/django-setup/)
+* [Writing your first Django app](https://docs.djangoproject.com/en/4.0/intro/tutorial01/)
