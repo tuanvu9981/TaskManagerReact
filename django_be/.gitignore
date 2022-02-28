@@ -1,3 +1,7 @@
 # The following folder will be ignored 
 
 django_be/__pycache__
+venv/
+.idea
+todo/__pycache__/
+todo/migrations/__pycache__

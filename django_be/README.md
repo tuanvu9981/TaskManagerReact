@@ -57,3 +57,22 @@ django-admin startproject django_be
 #### Detailed information about each file in Django, check: 
 * [First Steps with Django](https://realpython.com/django-setup/)
 * [Writing your first Django app](https://docs.djangoproject.com/en/4.0/intro/tutorial01/)
+
+---
+#### Setup Restful API App
+* Install **djangorestframework**, **mongoengine**, 
+```
+pip3 install mongoengine/djangorestframework
+```  
+* Write 3 more lines in **settings.py**
+```
+INSTALLED_APPS = [
+    ...
+    'rest_framework',
+    'corsheader'.
+    'todo.apps.TodoConfig'
+]
+```
+
+* ... and Middleware (the part which adjusts, converts requests & responses) as well
+
