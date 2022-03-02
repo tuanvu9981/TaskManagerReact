@@ -5,3 +5,4 @@ venv/
 .idea
 todo/__pycache__/
 todo/migrations/__pycache__
+django_be/settings.py

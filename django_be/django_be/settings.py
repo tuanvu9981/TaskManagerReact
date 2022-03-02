@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-import mongoengine
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -81,16 +80,16 @@ WSGI_APPLICATION = 'django_be.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-mongoengine.connect(
-    db="test_new_db",
-    host="localhost"
-)
+DATABASES = {
+    'default': {
+        'ENGINE': 'djongo',
+        'CLIENT': {
+            'host' : 'mongodb+srv://tuanvuMGDB:tuanvu9981mongo@todoapp.ejnw2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+            'name' : 'todo_mongo',
+            'authMechanism' : 'SCRAM-SHA-1' # For Atlas cloud db
+        }
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

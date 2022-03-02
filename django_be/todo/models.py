@@ -1,24 +1,26 @@
 from django.db import models
-from mongoengine import Document, fields
-import datetime
+from django.utils import timezone
 # Create your models here.
 
-class TaskElement(Document):
-    title = fields.StringField(required=True, max_length=100)
-    startDate = fields.DateField(default=datetime.datetime.now())
-    deadline = fields.DateField(required=True)
-    priority = fields.StringField(max_length=20)
-    isDone = fields.BooleanField(required=True)
-    criteriaList = fields.ListField()
-    # Prepared for user's free criteria
+class Person(models.Model):
+    personId = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100)
+    avatarLink = models.CharField(max_length=400)
+    username = models.CharField(max_length=100)
+    password = models.CharField(max_length=400)
 
-class TopicElement(Document):
-    taskNum = fields.IntField(default=0)
-    taskList = fields.ListField(fields.EmbeddedDocumentListField(document_type="TaskElement"))
+class TopicElement(models.Model):
+    topicElementId = models.AutoField(primary_key=True)
+    topicTitle = models.CharField(max_length=100)
+    solvedTaskNum = models.PositiveIntegerField(default=0)
+    totalTaskNum = models.PositiveIntegerField(default=0)
+    ownBy = models.ForeignKey(Person, on_delete=models.CASCADE)
 
-class Person(Document):
-    name = fields.StringField(required=True, max_length=100)
-    avatarLink = fields.StringField(required=True, max_length=400)
-    username = fields.StringField(required=True, max_length=100)
-    password = fields.StringField(required=True, max_length=400)
-    topicList = fields.ListField(fields.ReferenceField(document_type=TopicElement))
+class TaskElement(models.Model):
+    taskElementId = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=100)
+    startDate = models.DateField(default=timezone.now)
+    deadline = models.DateField()
+    priority = models.CharField(max_length=20, choices=(('1',"High"), ('2',"Average"), ('3',"Low"), ('4',"None")))
+    isDone = models.BooleanField(default=False)
+    containedBy = models.ForeignKey(TopicElement, on_delete=models.CASCADE)

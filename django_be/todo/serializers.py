@@ -1,34 +1,48 @@
 from rest_framework import serializers
 from todo.models import *
 
+class PersonSerializer(serializers.ModelSerializer):
+
+    personalTopics = serializers.PrimaryKeyRelatedField(queryset=TopicElement.objects.all())
+
+    class Meta:
+        model = Person
+        fields = (
+            'personId',
+            'name',
+            'avatarLink'
+            'username'
+            'password'
+        )
+
+
 class TaskElementSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaskElement
         fields = (
+            'taskElementId',
             'title',
             'startDate',
             'deadline',
             'priority',
             'isDone',
-            'criteriaList'
         )
 
 class TopicElementSerializer(serializers.ModelSerializer):
+
+    TaskList = TaskElementSerializer(many=True)
+
     class Meta:
         model = TopicElement
         fields = (
-            'taskNum',
-            'taskList'
+            'topicElementId',
+            'topicTitle',
+            'solvedTaskNum',
+            'totalTaskNum'
         )
 
-class PersonSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Person
-        fields = (
-            'name',
-            'avatarLink'
-            'username'
-            'password'
-            'topicList'
-        )
+
+
+
+
 

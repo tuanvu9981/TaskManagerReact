@@ -60,9 +60,15 @@ django-admin startproject django_be
 
 ---
 #### Setup Restful API App
-* Install **djangorestframework**, **mongoengine**, 
+##### Install the following python packages: 
+* **djangorestframework**
+* **pymongo**
+* **django-cors-headers**
+* **djongo**
+* **dnspython**
+
 ```
-pip3 install mongoengine/djangorestframework
+pip3 install <package_name>
 ```  
 * Write 3 more lines in **settings.py**
 ```
@@ -75,4 +81,30 @@ INSTALLED_APPS = [
 ```
 
 * ... and Middleware (the part which adjusts, converts requests & responses) as well
+```
+MIDDLEWARE = [
+    ...
+    'corsheaders.middleware.CorsMiddleware',
+]
+```
 
+---
+#### Atlas: Mongo DB Cloud. After signing up, create a cluster & get the link
+```
+DATABASES = {
+    'default': {
+        'ENGINE': 'djongo',
+        'CLIENT': {
+            'host' : 'mongodb+srv://<DB_NAME>:<DB_PW>@todoapp.ejnw2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+            'name' : <real_DB_NAME_YOU_WANT>,
+            'authMechanism' : 'SCRAM-SHA-1' # For Atlas cloud db
+        }
+    }
+}
+```
+
+---
+#### ATTENTIONS !
+* **models.DateField**: The default value should be type of **django.utils.timezone.now**
+* **djongo (version 1.3.6)** IS NOT COMPATIBLE WITH **pymongo 4.0**, use **pymongo 3.12.1** instead. 
+* **choices**: https://www.reddit.com/r/learnprogramming/comments/588dpj/django_error_apppostcategory_fieldse005_choices/
