@@ -112,3 +112,6 @@ DATABASES = {
 
 #### SPECIAL COMMAND WITH MONGOENGINE
 * **insert another field**: ```task.update(set__<dict_field>__<new_filed> = [], {} ... )```
+* **push/pull another element into list**: 
+  ```task.update(pull__<dict_field>__<list_field> = "String", [], {})```
+  ```task.update(pull__<dict_field>__<list_field> = "String", [], {})```
