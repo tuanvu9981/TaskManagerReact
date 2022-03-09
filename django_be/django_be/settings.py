@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+from mongoengine import connect
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -80,16 +81,34 @@ WSGI_APPLICATION = 'django_be.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'djongo',
-        'CLIENT': {
-            'host' : 'mongodb+srv://tuanvuMGDB:tuanvu9981mongo@todoapp.ejnw2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
-            'name' : 'todo_mongo',
-            'authMechanism' : 'SCRAM-SHA-1' # For Atlas cloud db
-        }
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'djongo',
+#         'CLIENT': {
+#             'host' : 'mongodb+srv://tuanvuMGDB:tuanvu9981mongo@todoapp.ejnw2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+#             'name' : 'todo_mongo',
+#             'authMechanism' : 'SCRAM-SHA-1' # For Atlas cloud db
+#         }
+#     }
+# }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.dummy',
+#     }
+# }
+# # MongoDB settings
+# MONGODB_DATABASES = {
+#     'default': {
+#         'name': 'test_new_db',
+#         'host': 'localhost',
+#         'port': 27017
+#     }
+# }
+# DJANGO_MONGOENGINE_OVERRIDE_ADMIN = True
+#
+# SESSION_ENGINE = 'django_mongoengine.sessions'
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
