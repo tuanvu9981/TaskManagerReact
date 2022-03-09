@@ -1,7 +1,8 @@
-from django.conf.urls import url
-from todo import views
+from todo.view import PersonView, TaskView
 from django.urls import path
 
 urlpatterns = [
-    path('add',views.addOneTask)
+    path('add', PersonView.addOneTask),
+    path('addTask', TaskView.createNewTask),
+    path('updateAddCriteria', TaskView.updateAddCriteria)
 ]

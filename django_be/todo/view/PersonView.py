@@ -1,26 +1,9 @@
-from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.parsers import JSONParser
-from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
-from django.utils import timezone
-from mongoengine import connect, disconnect
-
-from todo.models import *
-import json
-from django.utils.dateparse import parse_date
+from todo.models import Person
 
 # Create your views here.
 
-def setup():
-    connect(
-        db="todo",
-        host="localhost",
-        port=27017
-    )
-
-
-@api_view(['GET', 'PUT', 'DELETE', 'POST'])
 @csrf_exempt
 def addOneTask(request):
     if request.method == 'POST':
@@ -34,21 +17,26 @@ def addOneTask(request):
             # username = request.POST['username']
             # realname = request.POST['realname']
 
-            setup()
+            #setup()
             person = Person()
+
             person.username = request.POST['username']
             person.fullname = request.POST['fullname']
             person.password = request.POST['password']
             person.save()
 
-            print(person.__dict__)
-            disconnect()
+            #disconnect()
 
-            # print("username = {}, realname = {}".format(username, realname))
+            # print("username = {}, realname = {}".format(request.POST['username'], request.POST['fullname']))
 
             return JsonResponse(
                 data={
-                    "person" : json.dumps(person.__dict__),
+                    "person" : {
+                        "id": str(person.id),
+                        "username": person.username,
+                        "fullname": person.fullname,
+                        "password": person.password
+                    },
                     "status" : "OK"
                 }
             )

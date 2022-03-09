@@ -38,10 +38,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'rest_framework',
+
     'corsheaders',
+
+    'django_mongoengine',
+
     'todo.apps.TodoConfig'
 ]
+
+# AUTH_USER_MODEL = 'mongo_auth.MongoUser'
+
+AUTHENTICATION_BACKENDS = (
+    'django_mongoengine.mongo_auth.backends.MongoEngineBackend'
+)
 
 CORS_ORIGIN_ALLOW_ALL = True
 # Not recommend in real application
@@ -97,17 +108,17 @@ DATABASES = {
         'ENGINE': 'django.db.backends.dummy',
     }
 }
-# # MongoDB settings
-# MONGODB_DATABASES = {
-#     'default': {
-#         'name': 'test_new_db',
-#         'host': 'localhost',
-#         'port': 27017
-#     }
-# }
-# DJANGO_MONGOENGINE_OVERRIDE_ADMIN = True
-#
-# SESSION_ENGINE = 'django_mongoengine.sessions'
+
+# MongoDB settings ('name' = 'your database name')
+MONGODB_DATABASES = {
+    'default': {
+        'name': 'todo',
+    }
+}
+
+DJANGO_MONGOENGINE_OVERRIDE_ADMIN = True
+
+SESSION_ENGINE = 'django_mongoengine.sessions'
 
 
 # Password validation

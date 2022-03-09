@@ -5,3 +5,4 @@
 /.idea
 /todo/__pycache__/
 /todo/migrations/__pycache__
+/todo/view/__pycache__
