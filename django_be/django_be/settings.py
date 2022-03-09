@@ -92,11 +92,11 @@ WSGI_APPLICATION = 'django_be.wsgi.application'
 #     }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.dummy',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.dummy',
+    }
+}
 # # MongoDB settings
 # MONGODB_DATABASES = {
 #     'default': {

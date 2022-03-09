@@ -1,6 +1,6 @@
 # The following folder will be ignored 
 
-django_be
+django_be/
 venv/
 .idea
 todo/__pycache__/

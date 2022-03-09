@@ -63,6 +63,7 @@ django-admin startproject django_be
 ##### Install the following python packages: 
 * **djangorestframework**
 * **pymongo**
+* **mongoengine**  
 * **django-cors-headers**
 * **djongo**
 * **dnspython**
@@ -108,3 +109,6 @@ DATABASES = {
 * **models.DateField**: The default value should be type of **django.utils.timezone.now**
 * **djongo (version 1.3.6)** IS NOT COMPATIBLE WITH **pymongo 4.0**, use **pymongo 3.12.1** instead. 
 * **choices**: https://www.reddit.com/r/learnprogramming/comments/588dpj/django_error_apppostcategory_fieldse005_choices/
+
+#### SPECIAL COMMAND WITH MONGOENGINE
+* **insert another field**: ```task.update(set__<dict_field>__<new_filed> = [], {} ... )```
