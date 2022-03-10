@@ -9,5 +9,6 @@ urlpatterns = [
     path('updateAddCriteria', TaskView.updateAddCriteria),
     path('getAllTask', TaskView.getAllTask),
 
-    path('createNewTopic', TopicView.createNewTopic)
+    path('createNewTopic', TopicView.createNewTopic),
+    path('getAllTopicOfPerson', TopicView.getAllTopicOfPerson)
 ]
