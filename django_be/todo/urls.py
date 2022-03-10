@@ -10,5 +10,7 @@ urlpatterns = [
     path('getAllTask', TaskView.getAllTask),
 
     path('createNewTopic', TopicView.createNewTopic),
-    path('getAllTopicOfPerson', TopicView.getAllTopicOfPerson)
+    path('getAllTopicOfPerson', TopicView.getAllTopicOfPerson),
+    path('deleteOneTopic', TopicView.deleteOneTopic),
+    path('updateTopicTitle', TopicView.updateTopicTitle)
 ]

@@ -59,3 +59,47 @@ def getAllTopicOfPerson(request):
     return JsonResponse(
         data={"status": "ERROR"}
     )
+
+@csrf_exempt
+def deleteOneTopic(request):
+    if request.method == 'PUT':
+        """ DELETE ONE TOPIC == UPDATE, PULLING OUT OF LIST """
+
+        data = json.loads((request.body))
+
+        owner = Person.objects.get(person_id=ObjectId(data['person_id']))
+        topic = TopicElement.objects.get(topic_id=ObjectId(data['topic_id']))
+
+        owner.update(
+            pull__topicList = ObjectId(data['topic_id'])
+        )
+        return JsonResponse(
+            data={
+                "status" : "OK",
+                "topicTitle" : topic.topicTitle
+            }
+        )
+    return JsonResponse(
+        data={"status" : "ERROR"}
+    )
+
+@csrf_exempt
+def updateTopicTitle(request):
+    if request.method == 'PUT':
+        data = json.loads(request.body)
+
+        topic = TopicElement.objects.get(topic_id=ObjectId(data['topic_id']))
+        topic.update(
+            topicTitle = data['new_title']
+        )
+
+        updated_topic = TopicElement.objects.get(topic_id=ObjectId(data['topic_id']))
+        return JsonResponse(
+            data={
+                "status" : "OK",
+                "updated_topic": updated_topic.to_json()
+            }
+        )
+    return JsonResponse(
+        data={"status": "ERROR"}
+    )
