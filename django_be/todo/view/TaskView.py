@@ -59,9 +59,9 @@ def updateTaskStatus(request):
         task.update(isDone=data['isDone'])
 
         if (data['isDone'] == True):
-            topic.update(solvedTaskNum = topic.solvedTaskNum - 1)
-        else:
             topic.update(solvedTaskNum = topic.solvedTaskNum + 1)
+        else:
+            topic.update(solvedTaskNum = topic.solvedTaskNum - 1)
 
         return JsonResponse(
             data={ "status" : "OK"}
@@ -134,25 +134,6 @@ def updateAddCriteria(request):
         )
     return JsonResponse(data={"status":"ERROR"})
 
-@csrf_exempt
-def getAllTask(request):
-    if request.method == 'GET':
-
-        data = json.loads(request.body)
-
-        topic = TopicElement.objects.get(topic_id=data['topic_id'])
-        taskList = []
-
-        for task in topic.taskList:
-            taskList.append(task.to_json())
-
-        return JsonResponse(
-            data={
-                "status" : "OK",
-                "taskList" : taskList
-            }
-        )
-    return JsonResponse(data={"status":"ERROR"})
 
 @csrf_exempt
 def getOneTaskDetail(request):
@@ -166,6 +147,7 @@ def getOneTaskDetail(request):
             }
         )
     return JsonResponse(data={"status" : "ERROR"})
+
 
 @csrf_exempt
 def updateOneTask(request):

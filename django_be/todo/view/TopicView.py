@@ -48,7 +48,12 @@ def getAllTopicOfPerson(request):
         topicList = []
 
         for topic in owner.topicList:
-            topicList.append(topic.to_json())
+            topicList.append({
+                "topicTitle" : topic.topicTitle,
+                "topic_id": str(topic.pk),
+                "solvedTaskNum": topic.solvedTaskNum,
+                "totalTaskNum" : topic.totalTaskNum
+            })
 
         return JsonResponse(
             data={
