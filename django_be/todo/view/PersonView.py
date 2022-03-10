@@ -51,8 +51,10 @@ def signIn(request):
         username_input = data['username']
         password_input = data['password']
 
-        person = Person.objects.get(username=username_input)
-        if (len(person) != 0):
+        person_search = Person.objects(username=username_input)
+
+        if (person_search.count() != 0):
+            person = Person.objects.get(username=username_input)
             if check_password_hash(person.password, password_input):
                 return JsonResponse(
                     data={
@@ -82,5 +84,55 @@ def signIn(request):
             )
     return JsonResponse(data={"status" : "ERROR"})
 
+@csrf_exempt
+def updateAvatar(request):
+    if request.method == 'PUT':
+
+        data = json.loads(request.body)
+
+        person = Person.objects.get(person_id=ObjectId(data['person_id']))
+        person.update(
+            avatarLink = data['avatarLink']
+        )
+
+        new_person = Person.objects.get(person_id=ObjectId(data['person_id']))
+        return JsonResponse(
+            data={
+                "status" : "OK",
+                "new_person": {
+                    "person_id" : str(new_person.pk),
+                    "avatarLink": new_person.avatarLink,
+                    "fullname" : new_person.fullname,
+                    "username" : new_person.username
+                }
+            }
+        )
+    return JsonResponse(data={"status": "ERROR"})
+
+@csrf_exempt
+def updatePassword(request):
+    if request.method == 'PUT':
+        data = json.loads(request.body)
+
+        person = Person.objects.get(person_id=ObjectId(data['person_id']))
+
+        if (check_password_hash(person.password, data['old_password']) == False) :
+            return JsonResponse(
+                data={
+                    "status" : "ERROR_PW",
+                    "message" : "Old Password Incorrect !"
+                }
+            )
+
+        person.update(
+            password = generate_password_hash(data['new_password'])
+        )
+        return JsonResponse(
+            data={
+                "status": "OK",
+                "message": "Password updated successfully !"
+            }
+        )
+    return JsonResponse(data={"status": "ERROR"})
 
 

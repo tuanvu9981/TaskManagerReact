@@ -4,13 +4,15 @@ from django.urls import path
 urlpatterns = [
     path('signUp', PersonView.signUp),
     path('signIn', PersonView.signIn),
-
-    path('createNewTask', TaskView.createNewTask),
-    path('updateAddCriteria', TaskView.updateAddCriteria),
-    path('getAllTask', TaskView.getAllTask),
+    path('updateAvatar', PersonView.updateAvatar),
+    path('updatePassword', PersonView.updatePassword),
 
     path('createNewTopic', TopicView.createNewTopic),
     path('getAllTopicOfPerson', TopicView.getAllTopicOfPerson),
     path('deleteOneTopic', TopicView.deleteOneTopic),
-    path('updateTopicTitle', TopicView.updateTopicTitle)
+    path('updateTopicTitle', TopicView.updateTopicTitle),
+
+    path('createNewTask', TaskView.createNewTask),
+    path('updateAddCriteria', TaskView.updateAddCriteria),
+    path('getAllTask', TaskView.getAllTask)
 ]
