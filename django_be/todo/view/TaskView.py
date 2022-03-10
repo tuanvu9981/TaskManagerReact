@@ -76,7 +76,7 @@ def updateAddCriteria(request):
         data = json.loads(request.body)
         task = TaskElement.objects.get(task_id=ObjectId(data['task_id']))
 
-        print(data['criteria'])
+        # print(data['criteria'])
 
         keys = data['criteria'].keys()
 
@@ -84,17 +84,39 @@ def updateAddCriteria(request):
             myStr = {"set__criteria__" + str(key) : data['criteria'][key]}
             task.update(**myStr)
 
+        newTask = TaskElement.objects.get(task_id=ObjectId(data['task_id']))
+        """ task.criteria didn't have enough updated data """
+
         return JsonResponse(
             data={
                 "status": "OK",
                 "task": {
-                    "task_id": str(task.pk),
-                    "taskTitle": task.taskTitle,
-                    "priority": task.priority,
-                    "startDate": task.startDate,
-                    "deadline": task.deadline,
-                    "criteria" : task.criteria
+                    "task_id": str(newTask.pk),
+                    "taskTitle": newTask.taskTitle,
+                    "priority": newTask.priority,
+                    "startDate": newTask.startDate,
+                    "deadline": newTask.deadline,
+                    "criteria" : newTask.criteria
                 }
+            }
+        )
+    return JsonResponse(data={"status":"ERROR"})
+
+@csrf_exempt
+def getAllTask(request):
+    if request.method == 'GET':
+
+        """ GET ALL OBJ: objects.all() --> GET FIRST OBJECT: objects.first() """
+        task = TaskElement.objects.all()
+        taskList = []
+
+        for i in task:
+            taskList.append(i.to_json())
+
+        return JsonResponse(
+            data={
+                "status" : "OK",
+                "taskList" : taskList
             }
         )
     return JsonResponse(data={"status":"ERROR"})

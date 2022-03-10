@@ -13,6 +13,17 @@ class TaskElement(Document):
     isDone = fields.BooleanField(default=False)
     criteria = fields.DictField()
 
+    def to_json(self, *args, **kwargs):
+        return {
+            "task_id" : str(self.pk),
+            "taskTitle" : self.taskTitle,
+            "startDate" : self.startDate,
+            "deadline" : self.deadline,
+            "priority" : self.priority,
+            "isDone" : self.isDone,
+            "criteria" : self.criteria
+        }
+
 class TopicElement(Document):
     topic_id = fields.ObjectIdField(default=ObjectId, primary_key=True)
     topicTitle = fields.StringField(max_length=100)
