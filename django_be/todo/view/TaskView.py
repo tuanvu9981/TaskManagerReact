@@ -2,7 +2,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http.response import JsonResponse
 import json
 from bson import ObjectId
-from todo.models import TaskElement
+from todo.models import TaskElement, TopicElement
 
 """GET == SELECT | POST == CREATE | PUT == UPDATE | DELETE == DELETE """
 
@@ -20,6 +20,13 @@ def createNewTask(request):
         task.startDate = data['startDate']
         task.save()
 
+        topic = TopicElement.objects.get(topic_id=ObjectId(data['topic_id']))
+        myQuery = {
+            "totalTaskNum" : topic.totalTaskNum + 1,
+            "push__taskList" : task
+        }
+        topic.update(**myQuery)
+
         return JsonResponse(
             data={
                 "task" :{
@@ -27,7 +34,10 @@ def createNewTask(request):
                     "taskTitle": task.taskTitle,
                     "priority": task.priority,
                     "startDate": task.startDate,
-                    "deadline": task.deadline
+                    "deadline": task.deadline,
+
+                    "topic_id" : str(topic.pk),
+                    "topicTitle": topic.topicTitle
                 },
                 "status" : "OK"
             }
