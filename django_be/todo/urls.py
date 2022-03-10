@@ -11,9 +11,13 @@ urlpatterns = [
     path('getAllTopicOfPerson', TopicView.getAllTopicOfPerson),
     path('deleteOneTopic', TopicView.deleteOneTopic),
     path('updateTopicTitle', TopicView.updateTopicTitle),
+    path('getOneTopicDetail', TopicView.getOneTopicDetail),
 
     path('createNewTask', TaskView.createNewTask),
-    path('updateAddCriteria', TaskView.updateAddCriteria),
     path('getAllTask', TaskView.getAllTask),
-    path('deleteTask', TaskView.deleteTask)
+    path('getOneTaskDetail', TaskView.getOneTaskDetail),
+    path('deleteTask', TaskView.deleteTask),
+    path('updateOneTask', TaskView.updateOneTask),
+    path('updateAddCriteria', TaskView.updateAddCriteria),
+    path('updateTaskStatus', TaskView.updateTaskStatus)
 ]

@@ -153,3 +153,38 @@ def getAllTask(request):
             }
         )
     return JsonResponse(data={"status":"ERROR"})
+
+@csrf_exempt
+def getOneTaskDetail(request):
+    if request.method == 'GET':
+        data = json.loads(request.body)
+        task = TaskElement.objects.get(task_id=data['task_id'])
+        return JsonResponse(
+            data={
+                "status" : "OK",
+                "task" : task.to_json()
+            }
+        )
+    return JsonResponse(data={"status" : "ERROR"})
+
+@csrf_exempt
+def updateOneTask(request):
+    if request.method == 'PUT':
+        data = json.loads(request.body)
+        task = TaskElement.objects.get(task_id=data['task_id'])
+        myQuery = {
+            "taskTitle": data['taskTitle'],
+            "startDate": data['startDate'],
+            "deadline": data['deadline'],
+            "priority": data['priority'],
+            "criteria": data['criteria']
+        }
+        task.update(**myQuery)
+        return JsonResponse(
+            data={
+                "status" : "OK",
+                "message" : "Update successfully !"
+            }
+        )
+    return JsonResponse(data={"status" : "ERROR"})
+

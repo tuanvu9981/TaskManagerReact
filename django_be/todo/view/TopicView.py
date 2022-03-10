@@ -105,3 +105,17 @@ def updateTopicTitle(request):
     return JsonResponse(
         data={"status": "ERROR"}
     )
+
+@csrf_exempt
+def getOneTopicDetail(request):
+    if request.method == 'GET':
+        data = json.loads(request.body)
+        topic = TopicElement.objects.get(topic_id=ObjectId(data['topic_id']))
+
+        return JsonResponse(
+            data={
+                "status" : "OK",
+                "topic" : topic.to_json()
+            }
+        )
+    return JsonResponse(data={"status" : "ERROR"})
