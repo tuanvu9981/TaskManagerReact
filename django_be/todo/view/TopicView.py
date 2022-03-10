@@ -73,6 +73,8 @@ def deleteOneTopic(request):
         owner.update(
             pull__topicList = ObjectId(data['topic_id'])
         )
+        topic.delete()
+
         return JsonResponse(
             data={
                 "status" : "OK",

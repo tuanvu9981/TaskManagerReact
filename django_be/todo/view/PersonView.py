@@ -136,3 +136,4 @@ def updatePassword(request):
     return JsonResponse(data={"status": "ERROR"})
 
 
+""" GET ALL OBJ: objects.all() --> GET FIRST OBJECT: objects.first() """

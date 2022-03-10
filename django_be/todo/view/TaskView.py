@@ -34,9 +34,10 @@ def createNewTask(request):
                     "taskTitle": task.taskTitle,
                     "priority": task.priority,
                     "startDate": task.startDate,
-                    "deadline": task.deadline,
-
-                    "topic_id" : str(topic.pk),
+                    "deadline": task.deadline
+                },
+                "topic" :{
+                    "topic_id": str(topic.pk),
                     "topicTitle": topic.topicTitle
                 },
                 "status" : "OK"
@@ -53,10 +54,14 @@ def updateTaskStatus(request):
         """ BODY RAW REQUEST JSON """
         data = json.loads(request.body)
 
+        topic = TopicElement.objects.get(topic_id=ObjectId(data['topic_id']))
         task = TaskElement.objects.get(task_id=ObjectId(data['task_id']))
-        task.update(
-            isDone = data['isDone']
-        )
+        task.update(isDone=data['isDone'])
+
+        if (data['isDone'] == True):
+            topic.update(solvedTaskNum = topic.solvedTaskNum - 1)
+        else:
+            topic.update(solvedTaskNum = topic.solvedTaskNum + 1)
 
         return JsonResponse(
             data={ "status" : "OK"}
@@ -67,13 +72,30 @@ def updateTaskStatus(request):
 
 @csrf_exempt
 def deleteTask(request):
-    if request.method == 'DELETE':
+    if request.method == 'PUT':
         data = json.loads(request.body)
 
+        topic = TopicElement.objects.get(topic_id=data['topic_id'])
         task = TaskElement.objects.get(task_id=ObjectId(data['task_id']))
+
+        myQuery = {
+            "pull__taskList" : task,
+            "totalTaskNum" : topic.totalTaskNum - 1
+        }
+        topic.update(**myQuery)
         task.delete()
         return JsonResponse(
-            data={"status": "OK"}
+            data={
+                "status": "OK",
+                "topic":{
+                    "topic_id" : str(topic.pk),
+                    "topicTitle": topic.topicTitle
+                },
+                "task":{
+                    "task_id": str(task.pk),
+                    "taskTitle" : task.taskTitle
+                }
+            }
         )
     return JsonResponse(
         data={"status": "ERROR"}
@@ -116,11 +138,12 @@ def updateAddCriteria(request):
 def getAllTask(request):
     if request.method == 'GET':
 
-        """ GET ALL OBJ: objects.all() --> GET FIRST OBJECT: objects.first() """
-        tasks = TaskElement.objects.all()
+        data = json.loads(request.body)
+
+        topic = TopicElement.objects.get(topic_id=data['topic_id'])
         taskList = []
 
-        for task in tasks:
+        for task in topic.taskList:
             taskList.append(task.to_json())
 
         return JsonResponse(
