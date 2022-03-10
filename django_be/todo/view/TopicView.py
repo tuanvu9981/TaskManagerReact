@@ -11,6 +11,7 @@ def createNewTopic(request):
     if request.method == 'POST':
         data = json.loads(request.body)
 
+
         topic = TopicElement()
         topic.topicTitle = data['topicTitle']
         topic.save()
@@ -29,3 +30,9 @@ def createNewTopic(request):
     return JsonResponse(
         data={"status" : "ERROR"}
     )
+
+@csrf_exempt
+def getAllTopic(request):
+    if request.method == 'GET':
+        topics = TopicElement.objects.all()
+        topicList = []

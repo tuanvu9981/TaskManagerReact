@@ -31,6 +31,15 @@ class TopicElement(Document):
     totalTaskNum = fields.IntField(default=0)
     taskList = fields.ListField(fields.ReferenceField(document_type=TaskElement))
 
+    def to_json(self, *args, **kwargs):
+        return {
+            "topic_id" : str(self.pk),
+            "topicTitle" : self.topicTitle,
+            "solvedTaskNum" : self.solvedTaskNum,
+            "totalTaskNum" : self.totalTaskNum,
+            "taskList" : self.taskList
+        }
+
 """ This two class represents EmbeddedDocumentField & List """
 # class TaskElement(EmbeddedDocument):
 #     id = fields.ObjectIdField(default=ObjectId, primary_key=True)

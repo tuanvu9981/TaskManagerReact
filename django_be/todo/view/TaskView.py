@@ -117,11 +117,11 @@ def getAllTask(request):
     if request.method == 'GET':
 
         """ GET ALL OBJ: objects.all() --> GET FIRST OBJECT: objects.first() """
-        task = TaskElement.objects.all()
+        tasks = TaskElement.objects.all()
         taskList = []
 
-        for i in task:
-            taskList.append(i.to_json())
+        for task in tasks:
+            taskList.append(task.to_json())
 
         return JsonResponse(
             data={

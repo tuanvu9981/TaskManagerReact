@@ -45,7 +45,9 @@ INSTALLED_APPS = [
 
     'django_mongoengine',
 
-    'todo.apps.TodoConfig'
+    'todo.apps.TodoConfig',
+
+    'django_werkzeug'
 ]
 
 # AUTH_USER_MODEL = 'mongo_auth.MongoUser'
