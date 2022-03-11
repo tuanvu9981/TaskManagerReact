@@ -34,7 +34,6 @@ def signUp(request):
                     "person_id": str(person.id),
                     "username": person.username,
                     "fullname": person.fullname,
-                    "password": person.password,
                     "avatarLink": person.avatarLink
                 },
                 "status" : "OK"
