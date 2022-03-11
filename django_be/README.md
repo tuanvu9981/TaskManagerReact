@@ -108,10 +108,48 @@ DATABASES = {
 #### ATTENTIONS !
 * **models.DateField**: The default value should be type of **django.utils.timezone.now**
 * **djongo (version 1.3.6)** IS NOT COMPATIBLE WITH **pymongo 4.0**, use **pymongo 3.12.1** instead. 
-* **choices**: https://www.reddit.com/r/learnprogramming/comments/588dpj/django_error_apppostcategory_fieldse005_choices/
 
 #### SPECIAL COMMAND WITH MONGOENGINE
-* **insert another field**: ```task.update(set__<dict_field>__<new_filed> = [], {} ... )```
-* **push/pull another element into list**: 
+* **Insert another field**: 
+```task.update(set__<dict_field>__<new_filed> = [], {} ... )```
+
+* **Push/Pull another element into list**: 
+  ```task.update(push__<dict_field>__<list_field> = "String", [], {})```
   ```task.update(pull__<dict_field>__<list_field> = "String", [], {})```
-  ```task.update(pull__<dict_field>__<list_field> = "String", [], {})```
+
+* **Get LIST instance(s) of class TaskElement satisfying the condition :**
+  ```TaskElement.objects(task_id=data['task_id'])```
+  
+* **Get LIST of ALL instance(s) in collection DB :**
+  ```TaskElement.objects.all()```
+  
+* **Get the first instance satisfying the condition**
+  ```TaskElement.objects.first()```
+  
+* **Return only 1 object satisfying the condition (2 or more object satisfy --> raise Exception) :**
+  ```TaskElement.objects.get(task_id=data['task_id'])```
+  
+* **Update 1 unique field (not ListField/DictField)**
+  ```TaskElement.objects.update(<field_name>=<value>)```
+  
+* **Delete a document in the collection**
+```
+task = TaskElement.objects.get(task_id=data['task_id'])
+task.delete()
+```
+
+* **Update multiple fields, set unknown-field-name with its value**
+```
+task = TaskElement.objects.get(task_id=ObjectId(data['task_id']))
+keys = data['criteria'].keys()
+
+for key in keys:
+    myStr = {"set__criteria__" + str(key) : data['criteria'][key]}
+    task.update(**myStr)
+```
+
+* **Update with RAW QUERY**
+```
+task = TaskElement.objects.get(task_id=data['task_id'])
+task.update(__raw__={'$set': {'tags': 'coding'}})
+```
