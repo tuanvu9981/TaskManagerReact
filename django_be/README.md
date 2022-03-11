@@ -60,24 +60,27 @@ django-admin startproject django_be
 
 ---
 #### Setup Restful API App
-##### Install the following python packages: 
+##### Install the following python packages (details: **requirements.txt**): 
 * **djangorestframework**
 * **pymongo**
 * **mongoengine**  
 * **django-cors-headers**
-* **djongo**
 * **dnspython**
 
 ```
-pip3 install <package_name>
+pip3 install <package_name> 
+
+pip3 install -r <path_to_requirements.txt>
 ```  
 * Write 3 more lines in **settings.py**
 ```
 INSTALLED_APPS = [
     ...
     'rest_framework',
-    'corsheader'.
-    'todo.apps.TodoConfig'
+    'corsheaders',
+    'django_mongoengine',
+    'todo.apps.TodoConfig',
+    'django_werkzeug'
 ]
 ```
 
@@ -91,46 +94,59 @@ MIDDLEWARE = [
 
 ---
 #### Atlas: Mongo DB Cloud. After signing up, create a cluster & get the link
+* Writing the following to settings.py to connect & manipulate your no-SQL data with Atlas
 ```
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
-        'CLIENT': {
-            'host' : 'mongodb+srv://<DB_NAME>:<DB_PW>@todoapp.ejnw2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
-            'name' : <real_DB_NAME_YOU_WANT>,
-            'authMechanism' : 'SCRAM-SHA-1' # For Atlas cloud db
-        }
+        'ENGINE': 'django.db.backends.dummy',
     }
 }
+
+# MongoDB settings ('name' = 'your database name')
+MONGODB_DATABASES = {
+    'default': {
+        'name': <real_DB_NAME_YOU_WANT>,
+        'host': 'mongodb+srv://<DB_NAME>:<DB_PW>@todoapp.ejnw2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+        'authMechanism' : 'SCRAM-SHA-1' # For Atlas cloud db
+    }
+}
+
+DJANGO_MONGOENGINE_OVERRIDE_ADMIN = True
+
+SESSION_ENGINE = 'django_mongoengine.sessions'
 ```
 
 ---
 #### ATTENTIONS !
 * **models.DateField**: The default value should be type of **django.utils.timezone.now**
-* **djongo (version 1.3.6)** IS NOT COMPATIBLE WITH **pymongo 4.0**, use **pymongo 3.12.1** instead. 
+* **djongo (version 1.3.6)** IS NOT COMPATIBLE WITH **pymongo 4.0**, use **pymongo 3.12.1** instead.
+* **Change the lib**
+```from django.db.models.fields import FieldDoesNotExist```
+INTO
+```from django.core.exceptions import FieldDoesNotExist```
 
 #### SPECIAL COMMAND WITH MONGOENGINE
 * **Insert another field**: 
 ```task.update(set__<dict_field>__<new_filed> = [], {} ... )```
 
 * **Push/Pull another element into list**: 
-  ```task.update(push__<dict_field>__<list_field> = "String", [], {})```
-  ```task.update(pull__<dict_field>__<list_field> = "String", [], {})```
+```task.update(push__<dict_field>__<list_field> = "String", [], {})```
+```task.update(pull__<dict_field>__<list_field> = "String", [], {})```
 
 * **Get LIST instance(s) of class TaskElement satisfying the condition :**
-  ```TaskElement.objects(task_id=data['task_id'])```
+```TaskElement.objects(task_id=data['task_id'])```
   
 * **Get LIST of ALL instance(s) in collection DB :**
-  ```TaskElement.objects.all()```
+```TaskElement.objects.all()```
   
 * **Get the first instance satisfying the condition**
-  ```TaskElement.objects.first()```
+```TaskElement.objects.first()```
   
 * **Return only 1 object satisfying the condition (2 or more object satisfy --> raise Exception) :**
-  ```TaskElement.objects.get(task_id=data['task_id'])```
+```TaskElement.objects.get(task_id=data['task_id'])```
   
 * **Update 1 unique field (not ListField/DictField)**
-  ```TaskElement.objects.update(<field_name>=<value>)```
+```TaskElement.objects.update(<field_name>=<value>)```
   
 * **Delete a document in the collection**
 ```
