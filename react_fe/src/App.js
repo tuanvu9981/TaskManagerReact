@@ -2,10 +2,20 @@ import Header from "./components/Header";
 import TaskList from "./components/TaskList";
 import { useState } from 'react'
 import AddTask from "./components/AddTask";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+  Box, Text, useColorModeValue, 
+  Checkbox, CheckboxGroup
+} from '@chakra-ui/react'
 
 function App() {
 
   const [showAddTask, setShowAddTask] = useState(false);
+  const notificationColor = useColorModeValue("gray.700", "white");
   const [taskList, setTaskList] = useState([
     {
       'id': 1,
@@ -60,31 +70,78 @@ function App() {
   }
 
   return (
-    <div className="container">
-      {/* <Header title='React' ageInt={10} ageChar='10' /> */}
-      <Header
-        title='Tuan Vu'
-        onAdd={() => setShowAddTask(!showAddTask)}
-        showAdd={showAddTask}
-      />
+    // <div className="container">
+    //   {/* <Header title='React' ageInt={10} ageChar='10' /> */}
+    //   <Header
+    //     title='Tuan Vu'
+    //     onAdd={() => setShowAddTask(!showAddTask)}
+    //     showAdd={showAddTask}
+    //   />
 
-      {showAddTask ?
-        <AddTask onAdd={addNewTask} />
-        : ''
-      }
-      {taskList.length > 0 ? (
-        <TaskList
-          taskList={taskList}
-          onDelete={deleteOneTask}
-          onToggle={toggleReminder} />
-      )
-        : (
-          <h3>You finished all tasks :D</h3>
-        )
-      }
-      {/* Auto-Format: Alt Shift F (Window) */}
-      {/* ScreenShot 1 part: Windows Shift S*/}
-    </div>
+    //   {showAddTask ?
+    //     <AddTask onAdd={addNewTask} />
+    //     : ''
+    //   }
+    //   {taskList.length > 0 ? (
+    //     <TaskList
+    //       taskList={taskList}
+    //       onDelete={deleteOneTask}
+    //       onToggle={toggleReminder} />
+    //   )
+    //     : (
+    //       <h3>You finished all tasks :D</h3>
+    //     )
+    //   }
+    //   {/* Auto-Format: Alt Shift F (Window) */}
+    //   {/* ScreenShot 1 part: Windows Shift S*/}
+    // </div>
+
+    <Accordion allowMultiple>
+      <AccordionItem>
+        <h2>
+          <AccordionButton>
+            {/* <Box flex='1' textAlign='left' w="20px" h="20px">
+              {taskList[0].text}
+            </Box> */}
+
+            <Text fontSize="14px" mb="5px" color={notificationColor} size='sm'>
+              <Text fontWeight="bold" fontSize="14px" as="span">
+                {taskList[0].text}
+              </Text>
+            </Text>
+            <AccordionIcon />
+          </AccordionButton>
+        </h2>
+        <AccordionPanel pb={4}>
+          Deadline: {taskList[0].date}
+        </AccordionPanel>
+      </AccordionItem>
+
+      {/* <AccordionItem>
+        {({ isExpanded }) => (
+          <>
+            <h2>
+              <AccordionButton>
+                <Box flex='1' textAlign='left'>
+                  Section 2 title
+                </Box>
+                {isExpanded ? (
+                  <AccordionIcon />
+                ) : (
+                  <AccordionIcon />
+                )}
+              </AccordionButton>
+            </h2>
+            <AccordionPanel pb={4}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+              minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+              aliquip ex ea commodo consequat.
+            </AccordionPanel>
+          </>
+        )}
+      </AccordionItem> */}
+    </Accordion>
   );
 }
 
