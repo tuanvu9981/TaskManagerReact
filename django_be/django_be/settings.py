@@ -114,8 +114,8 @@ DATABASES = {
 # MongoDB settings ('name' = 'your database name')
 MONGODB_DATABASES = {
     'default': {
-        'name': 'todo_mongo',
-        'host': 'mongodb+srv://tuanvuMGDB:tuanvu9981mongo@todoapp.ejnw2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+        # 'name': 'todo_mongo',
+        'host': 'mongodb+srv://tuanvuMGDB:todomongo8199@todoapp.ejnw2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
         'authMechanism' : 'SCRAM-SHA-1' # For Atlas cloud db
     }
 }

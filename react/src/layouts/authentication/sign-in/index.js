@@ -14,6 +14,7 @@ Coded by www.creative-tim.com
 */
 
 import { useState } from "react";
+import axios from "axios";
 
 // react-router-dom components
 import { Link } from "react-router-dom";
@@ -68,13 +69,14 @@ function Basic() {
 
       console.log(state)
 
-      // const response = axios.post('http://127.0.0.1:8000/todo/signIn', data)
-      // if (response.data.status === "OK"){
-      //   console.log(response.data)
-      // } else if (response.data.status === "ERROR"){
-      //   console.log(response.data)
-      //   console.log("ERROR happened!")
-      // }
+      const response = await axios.post('http://127.0.0.1:8000/todo/signIn', data)
+      if (response.data.status === "OK"){
+        console.log(response.data)
+
+      } else if (response.data.status === "ERROR"){
+        console.log(response.data)
+        console.log("ERROR happened!")
+      }
     }
   }
   return (

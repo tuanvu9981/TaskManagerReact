@@ -54,8 +54,10 @@ function Cover() {
     if (state.password !== state.confirmPassword) {
       console.log("Password & ConfirmPassword is not the same!")
     }
-    console.log(state)
-    // } else signUp();
+    else {
+      console.log(state)
+      signUp();
+    }
   }
 
   const signUp = async () => {
@@ -66,8 +68,11 @@ function Cover() {
     }
 
     const response = await axios.post('http://127.0.0.1:8000/todo/signUp', data);
+    console.log(response.data)
 
     if (response.data.status === "OK") {
+      console.log(response.data)
+
       setState({
         "fullname": "",
         "username": "",
@@ -75,7 +80,7 @@ function Cover() {
         "confirmPassword": ""
       })
     } else if (response.data.status === "ERROR") {
-
+      console.log(response.data)
     }
   }
 
@@ -105,7 +110,7 @@ function Cover() {
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form">
 
-            <MDBox mb={2}>
+            <MDBox mb={3}>
               <MDInput
                 type="text"
                 label="Full Name"
@@ -117,7 +122,7 @@ function Cover() {
               />
             </MDBox>
 
-            <MDBox mb={2}>
+            <MDBox mb={3}>
               <MDInput
                 name="username"
                 type="text"
