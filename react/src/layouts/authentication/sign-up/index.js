@@ -14,7 +14,7 @@ Coded by www.creative-tim.com
 */
 
 // react-router-dom components
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useState } from "react";
 import axios from "axios";
@@ -22,6 +22,9 @@ import axios from "axios";
 // @mui material components
 import Card from "@mui/material/Card";
 import Checkbox from "@mui/material/Checkbox";
+import Modal from '@mui/material/Modal';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -36,6 +39,20 @@ import CoverLayout from "layouts/authentication/components/CoverLayout";
 import bgImage from "assets/images/bg-sign-up-cover.jpeg";
 
 function Cover() {
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+    textAlign: 'center'
+  };
+
+
   const [state, setState] = useState(
     {
       "fullname": "",
@@ -44,6 +61,15 @@ function Cover() {
       "confirmPassword": ""
     }
   )
+
+  const [open, setOpen] = useState(false)
+  const navigator = useNavigate();
+
+  const handleClose = (e) => {
+    setOpen(false);
+    navigator("http://localhost:3000/profile");
+  }
+
 
   const handleInput = (e) => {
     e.persist();
@@ -72,6 +98,7 @@ function Cover() {
 
     if (response.data.status === "OK") {
       console.log(response.data)
+      setOpen(true);
 
       setState({
         "fullname": "",
@@ -85,134 +112,175 @@ function Cover() {
   }
 
   return (
-    <CoverLayout image={bgImage}>
-      <Card>
-        <MDBox
-          variant="gradient"
-          bgColor="info"
-          borderRadius="lg"
-          coloredShadow="success"
-          mx={2}
-          mt={-3}
-          p={3}
-          mb={1}
-          textAlign="center"
-        >
-          <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-            Join us today
-          </MDTypography>
+    <>
+      <CoverLayout image={bgImage}>
+        <Card>
+          <MDBox
+            variant="gradient"
+            bgColor="info"
+            borderRadius="lg"
+            coloredShadow="success"
+            mx={2}
+            mt={-3}
+            p={3}
+            mb={1}
+            textAlign="center"
+          >
+            <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
+              Join us today
+            </MDTypography>
 
-          <MDTypography display="block" variant="button" color="white" my={1}>
-            Register here
-          </MDTypography>
-        </MDBox>
+            <MDTypography display="block" variant="button" color="white" my={1}>
+              Register here
+            </MDTypography>
+          </MDBox>
 
-        <MDBox pt={4} pb={3} px={3}>
-          <MDBox component="form" role="form">
+          <MDBox pt={4} pb={3} px={3}>
+            <MDBox component="form" role="form">
 
-            <MDBox mb={3}>
-              <MDInput
-                type="text"
-                label="Full Name"
-                variant="standard"
-                fullWidth
-                name="fullname"
-                value={state.fullname}
-                onChange={handleInput}
-              />
-            </MDBox>
+              <MDBox mb={3}>
+                <MDInput
+                  type="text"
+                  label="Full Name"
+                  variant="standard"
+                  fullWidth
+                  name="fullname"
+                  value={state.fullname}
+                  onChange={handleInput}
+                />
+              </MDBox>
 
-            <MDBox mb={3}>
-              <MDInput
-                name="username"
-                type="text"
-                label="User Name"
-                variant="standard"
-                fullWidth
-                value={state.username}
-                onChange={handleInput}
-              />
-            </MDBox>
+              <MDBox mb={3}>
+                <MDInput
+                  name="username"
+                  type="text"
+                  label="User Name"
+                  variant="standard"
+                  fullWidth
+                  value={state.username}
+                  onChange={handleInput}
+                />
+              </MDBox>
 
-            <MDBox mb={2}>
-              <MDInput
-                name="password"
-                type="password"
-                label="Password"
-                variant="standard"
-                fullWidth
-                value={state.password}
-                onChange={handleInput}
-              />
-            </MDBox>
+              <MDBox mb={2}>
+                <MDInput
+                  name="password"
+                  type="password"
+                  label="Password"
+                  variant="standard"
+                  fullWidth
+                  value={state.password}
+                  onChange={handleInput}
+                />
+              </MDBox>
 
-            <MDBox mb={2}>
-              <MDInput
-                name="confirmPassword"
-                type="password"
-                label="Confirm Your Password"
-                variant="standard"
-                fullWidth
-                value={state.confirmPassword}
-                onChange={handleInput}
-              />
-            </MDBox>
+              <MDBox mb={2}>
+                <MDInput
+                  name="confirmPassword"
+                  type="password"
+                  label="Confirm Your Password"
+                  variant="standard"
+                  fullWidth
+                  value={state.confirmPassword}
+                  onChange={handleInput}
+                />
+              </MDBox>
 
-            <MDBox display="flex" alignItems="center" ml={-1}>
-              <Checkbox />
+              <MDBox display="flex" alignItems="center" ml={-1}>
+                <Checkbox />
 
-              <MDTypography
-                variant="button"
-                fontWeight="regular"
-                color="text"
-                sx={{ cursor: "pointer", userSelect: "none", ml: -1 }}
-              >
-                &nbsp;&nbsp;I agree the&nbsp;
-              </MDTypography>
-
-              <MDTypography
-                component="a"
-                href="#"
-                variant="button"
-                fontWeight="bold"
-                color="info"
-                textGradient
-              >
-                Terms and Conditions
-              </MDTypography>
-            </MDBox>
-
-            <MDBox mt={4} mb={1}>
-              <MDButton
-                variant="gradient"
-                color="info"
-                fullWidth
-                onClick={preSignUp}
-              >
-                sign up
-              </MDButton>
-            </MDBox>
-
-            <MDBox mt={3} mb={1} textAlign="center">
-              <MDTypography variant="button" color="text">
-                Already have an account?{" "}
                 <MDTypography
-                  component={Link}
-                  to="/authentication/sign-in"
                   variant="button"
+                  fontWeight="regular"
+                  color="text"
+                  sx={{ cursor: "pointer", userSelect: "none", ml: -1 }}
+                >
+                  &nbsp;&nbsp;I agree the&nbsp;
+                </MDTypography>
+
+                <MDTypography
+                  component="a"
+                  href="#"
+                  variant="button"
+                  fontWeight="bold"
                   color="info"
-                  fontWeight="medium"
                   textGradient
                 >
-                  Sign In
+                  Terms and Conditions
                 </MDTypography>
-              </MDTypography>
-            </MDBox>
+              </MDBox>
 
+              <MDBox mt={4} mb={1}>
+                <MDButton
+                  variant="gradient"
+                  color="info"
+                  fullWidth
+                  onClick={preSignUp}
+                >
+                  sign up
+                </MDButton>
+              </MDBox>
+
+              <MDBox mt={3} mb={1} textAlign="center">
+                <MDTypography variant="button" color="text">
+                  Already have an account?{" "}
+                  <MDTypography
+                    component={Link}
+                    to="/authentication/sign-in"
+                    variant="button"
+                    color="info"
+                    fontWeight="medium"
+                    textGradient
+                  >
+                    Sign In
+                  </MDTypography>
+                </MDTypography>
+              </MDBox>
+
+            </MDBox>
           </MDBox>
-        </MDBox>
-      </Card>
-    </CoverLayout>
+        </Card>
+      </CoverLayout>
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+
+          <MDTypography
+            id="modal-modal-title"
+            variant="h4"
+            component="h2"
+            color="success"
+            textAlign="center"
+          >
+            Welcome to TaskManager
+          </MDTypography>
+
+
+          <MDTypography
+            id="modal-modal-description"
+            sx={{ mt: 2, pd: 3 }}
+            textAlign="center"
+            variant="h6"
+            component="h2"
+          >
+            Sign Up successfully !
+          </MDTypography>
+
+          <MDButton
+            onClick={handleClose}
+            variant="contained"
+            color="info"
+          >
+            OK
+          </MDButton>
+        </Box>
+      </Modal>
+    </>
   );
 }
 
