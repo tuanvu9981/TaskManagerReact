@@ -12,7 +12,7 @@ def signUp(request):
     if request.method == 'POST':
         data = json.loads(request.body)
 
-        person_search = Person.objects(username=data['username'])
+        person_search = Person.objects(username=data['username'].strip())
         if (person_search.count() !=  0):
             return JsonResponse(
                 data={
@@ -22,20 +22,15 @@ def signUp(request):
             )
 
         person = Person()
-        person.username = data['username']
-        person.fullname = data['fullname']
-        person.password = generate_password_hash(data['password'])
+        person.username = data['username'].strip()
+        person.fullname = data['fullname'].strip()
+        person.password = generate_password_hash(data['password'].strip())
         person.avatarLink = "default_avatar.png"
         person.save()
 
         return JsonResponse(
             data={
-                "person" : {
-                    "person_id": str(person.id),
-                    "username": person.username,
-                    "fullname": person.fullname,
-                    "avatarLink": person.avatarLink
-                },
+                "person" : person.to_json(),
                 "status" : "OK"
             }
         )
@@ -47,8 +42,8 @@ def signIn(request):
     if request.method == 'POST':
         data = json.loads(request.body)
 
-        username_input = data['username']
-        password_input = data['password']
+        username_input = data['username'].strip()
+        password_input = data['password'].strip()
 
         person_search = Person.objects(username=username_input)
 
@@ -59,12 +54,7 @@ def signIn(request):
                     data={
                         "status" : "OK",
                         "message" : "Login successfully",
-                        "person" :{
-                            "username" : person.username,
-                            "avatarLink" : person.avatarLink,
-                            "fullname": person.fullname,
-                            "person_id": str(person.pk)
-                        }
+                        "person" : person.to_json()
                     }
                 )
             else:
@@ -98,12 +88,7 @@ def updateAvatar(request):
         return JsonResponse(
             data={
                 "status" : "OK",
-                "new_person": {
-                    "person_id" : str(new_person.pk),
-                    "avatarLink": new_person.avatarLink,
-                    "fullname" : new_person.fullname,
-                    "username" : new_person.username
-                }
+                "new_person": new_person.to_json()
             }
         )
     return JsonResponse(data={"status": "ERROR"})

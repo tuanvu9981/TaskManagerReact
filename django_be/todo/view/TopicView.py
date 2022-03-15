@@ -22,16 +22,8 @@ def createNewTopic(request):
         return JsonResponse(
             data={
                 "status" : "OK",
-                "topic":{
-                    "topic_id": str(topic.pk),
-                    "topicTitle" : topic.topicTitle,
-                    "solvedTaskNum": topic.solvedTaskNum,
-                    "totalTaskNum" : topic.totalTaskNum
-                },
-                "owner":{
-                    "person_id": str(owner.pk),
-                    "fullname" : owner.fullname
-                }
+                "topic": topic.to_DTO(),
+                "owner_id": str(owner.pk),
             }
         )
     return JsonResponse(
@@ -48,12 +40,7 @@ def getAllTopicOfPerson(request):
         topicList = []
 
         for topic in owner.topicList:
-            topicList.append({
-                "topicTitle" : topic.topicTitle,
-                "topic_id": str(topic.pk),
-                "solvedTaskNum": topic.solvedTaskNum,
-                "totalTaskNum" : topic.totalTaskNum
-            })
+            topicList.append(topic.to_DTO())
 
         return JsonResponse(
             data={

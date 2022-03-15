@@ -45,6 +45,14 @@ class TopicElement(Document):
             "taskList" : taskListJson
         }
 
+    def to_DTO(self):
+        return {
+            "topic_id": str(self.pk),
+            "topicTitle": self.topicTitle,
+            "solvedTaskNum": self.solvedTaskNum,
+            "totalTaskNum": self.totalTaskNum,
+        }
+
 """ This two class represents EmbeddedDocumentField & List """
 # class TaskElement(EmbeddedDocument):
 #     id = fields.ObjectIdField(default=ObjectId, primary_key=True)
@@ -69,3 +77,10 @@ class Person(Document):
     username = fields.StringField(max_length=100)
     password = fields.StringField(max_length=400)
     topicList = fields.ListField(fields.ReferenceField(document_type=TopicElement))
+
+    def to_json(self, *args, **kwargs):
+        return {
+            "person_id" : str(self.pk),
+            "fullname" : self.fullname,
+            "avatarLink": self.avatarLink
+        }

@@ -23,7 +23,6 @@ import axios from "axios";
 import Card from "@mui/material/Card";
 import Checkbox from "@mui/material/Checkbox";
 import Modal from '@mui/material/Modal';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 // Material Dashboard 2 React components
@@ -46,12 +45,13 @@ function Cover() {
     transform: 'translate(-50%, -50%)',
     width: 400,
     bgcolor: 'background.paper',
+    // bgColor: "transparent",
+    // color: "dark",
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
     textAlign: 'center'
   };
-
 
   const [state, setState] = useState(
     {
@@ -62,14 +62,19 @@ function Cover() {
     }
   )
 
-  const [open, setOpen] = useState(false)
+  const [errMessage, setErrMessage] = useState("");
   const navigator = useNavigate();
+  const [openOK, setOpenOK] = useState(false);
+  const [openERR, setOpenERR] = useState(false);
 
-  const handleClose = (e) => {
-    setOpen(false);
+  const handleCloseOK = (e) => {
+    setOpenOK(false);
     navigator("http://localhost:3000/profile");
   }
 
+  const handleCloseERR = (e) => {
+    setOpenERR(false);
+  }
 
   const handleInput = (e) => {
     e.persist();
@@ -78,7 +83,8 @@ function Cover() {
 
   const preSignUp = async () => {
     if (state.password !== state.confirmPassword) {
-      console.log("Password & ConfirmPassword is not the same!")
+      setErrMessage("Password & ConfirmPassword is not the same!")
+      setOpenERR(true);
     }
     else {
       console.log(state)
@@ -94,11 +100,11 @@ function Cover() {
     }
 
     const response = await axios.post('http://127.0.0.1:8000/todo/signUp', data);
-    console.log(response.data)
+    // console.log(response.data)
 
     if (response.data.status === "OK") {
-      console.log(response.data)
-      setOpen(true);
+      // console.log(response.data)
+      setOpenOK(true);
 
       setState({
         "fullname": "",
@@ -107,7 +113,12 @@ function Cover() {
         "confirmPassword": ""
       })
     } else if (response.data.status === "ERROR") {
-      console.log(response.data)
+      // console.log(response.data)
+      setOpenERR(true);
+      setErrMessage("Error happened !")
+    } else if (response.data.status === "ERROR_DUP"){
+      setOpenERR(true);
+      setErrMessage(response.data.message);
     }
   }
 
@@ -242,9 +253,10 @@ function Cover() {
         </Card>
       </CoverLayout>
 
+      {/* OK MODAL */}
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={openOK}
+        // onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -260,7 +272,6 @@ function Cover() {
             Welcome to TaskManager
           </MDTypography>
 
-
           <MDTypography
             id="modal-modal-description"
             sx={{ mt: 2, pd: 3 }}
@@ -272,7 +283,7 @@ function Cover() {
           </MDTypography>
 
           <MDButton
-            onClick={handleClose}
+            onClick={handleCloseOK}
             variant="contained"
             color="info"
           >
@@ -280,6 +291,47 @@ function Cover() {
           </MDButton>
         </Box>
       </Modal>
+
+      {/* FAILURE MODAL */}
+      <Modal
+        open={openERR}
+        // onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+
+          <MDTypography
+            id="modal-modal-title"
+            variant="h4"
+            component="h2"
+            color="error"
+            textAlign="center"
+          >
+            Warning !
+          </MDTypography>
+
+          <MDTypography
+            id="modal-modal-description"
+            sx={{ mt: 2, pd: 3 }}
+            textAlign="center"
+            variant="h6"
+            component="h2"
+          >
+            {errMessage}
+            <br/><br/>
+          </MDTypography>
+
+          <MDButton
+            onClick={handleCloseERR}
+            variant="contained"
+            color="info"
+          >
+            OK
+          </MDButton>
+        </Box>
+      </Modal>
+
     </>
   );
 }

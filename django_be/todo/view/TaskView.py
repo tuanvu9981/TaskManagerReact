@@ -29,17 +29,7 @@ def createNewTask(request):
 
         return JsonResponse(
             data={
-                "task" :{
-                    "task_id": str(task.pk),
-                    "taskTitle": task.taskTitle,
-                    "priority": task.priority,
-                    "startDate": task.startDate,
-                    "deadline": task.deadline
-                },
-                "topic" :{
-                    "topic_id": str(topic.pk),
-                    "topicTitle": topic.topicTitle
-                },
+                "task" : task.to_json(),
                 "status" : "OK"
             }
         )
@@ -64,7 +54,10 @@ def updateTaskStatus(request):
             topic.update(solvedTaskNum = topic.solvedTaskNum - 1)
 
         return JsonResponse(
-            data={ "status" : "OK"}
+            data={
+                "status" : "OK",
+                "message": "Update successfully !"
+            }
         )
     return JsonResponse(
         data={"status": "ERROR"}
@@ -87,14 +80,8 @@ def deleteTask(request):
         return JsonResponse(
             data={
                 "status": "OK",
-                "topic":{
-                    "topic_id" : str(topic.pk),
-                    "topicTitle": topic.topicTitle
-                },
-                "task":{
-                    "task_id": str(task.pk),
-                    "taskTitle" : task.taskTitle
-                }
+                "topic_id" : str(topic.pk),
+                "taskTitle": task.taskTitle,
             }
         )
     return JsonResponse(
@@ -122,31 +109,25 @@ def updateAddCriteria(request):
         return JsonResponse(
             data={
                 "status": "OK",
-                "task": {
-                    "task_id": str(newTask.pk),
-                    "taskTitle": newTask.taskTitle,
-                    "priority": newTask.priority,
-                    "startDate": newTask.startDate,
-                    "deadline": newTask.deadline,
-                    "criteria" : newTask.criteria
-                }
+                "task": newTask.to_json()
             }
         )
     return JsonResponse(data={"status":"ERROR"})
 
 
-@csrf_exempt
-def getOneTaskDetail(request):
-    if request.method == 'GET':
-        data = json.loads(request.body)
-        task = TaskElement.objects.get(task_id=data['task_id'])
-        return JsonResponse(
-            data={
-                "status" : "OK",
-                "task" : task.to_json()
-            }
-        )
-    return JsonResponse(data={"status" : "ERROR"})
+""" CHECK TO DELETE """
+# @csrf_exempt
+# def getOneTaskDetail(request):
+#     if request.method == 'GET':
+#         data = json.loads(request.body)
+#         task = TaskElement.objects.get(task_id=data['task_id'])
+#         return JsonResponse(
+#             data={
+#                 "status" : "OK",
+#                 "task" : task.to_json()
+#             }
+#         )
+#     return JsonResponse(data={"status" : "ERROR"})
 
 
 @csrf_exempt
