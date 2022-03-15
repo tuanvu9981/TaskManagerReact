@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 // react-router-dom components
 import { Link, useNavigate } from "react-router-dom";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import axios from "axios";
 
 // @mui material components
@@ -43,7 +43,7 @@ function Cover() {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: 450,
     bgcolor: 'background.paper',
     // bgColor: "transparent",
     // color: "dark",
@@ -62,10 +62,17 @@ function Cover() {
     }
   )
 
-  const [errMessage, setErrMessage] = useState("");
+  const [errMessage, setErrMessage] = useState({
+    "msg": "",
+    "code": ""
+  });
+
   const navigator = useNavigate();
   const [openOK, setOpenOK] = useState(false);
   const [openERR, setOpenERR] = useState(false);
+  const fullnameRef = useRef('');
+  const usernameRef = useRef('');
+  const passwordRef = useRef('');
 
   const handleCloseOK = () => {
     setOpenOK(false);
@@ -74,6 +81,17 @@ function Cover() {
 
   const handleCloseERR = () => {
     setOpenERR(false);
+    console.log(errMessage.code);
+    if (errMessage.code === "UN_NULL" || errMessage.code === "UN_DUP"){
+      usernameRef.current.focus()
+    }
+    if (errMessage.code === "PW_NULL" || errMessage.code === "PW_NEQ"){
+      passwordRef.current.focus();
+    }
+    if (errMessage.code === "FN_NULL") {
+      console.log("Inside");
+      fullnameRef.current.focus();
+    }
   }
 
   const handleInput = (e) => {
@@ -82,8 +100,29 @@ function Cover() {
   }
 
   const preSignUp = async () => {
-    if (state.password !== state.confirmPassword) {
-      setErrMessage("Password & ConfirmPassword is not the same!")
+    if (state.fullname === "") {
+      setErrMessage({
+        "msg": "Fullname is empty",
+        "code": "FN_NULL"
+      })
+      setOpenERR(true);
+    } else if (state.username === ""){
+      setErrMessage({
+        "msg": "Username is empty",
+        "code": "UN_NULL"
+      });
+      setOpenERR(true);
+    } else if (state.password === ""){
+      setErrMessage({
+        "msg": "Password is empty",
+        "code": "PW_NULL"
+      })
+      setOpenERR(true);
+    } else if (state.password !== state.confirmPassword) {
+      setErrMessage({
+        "msg": "Password & ConfirmPassword is not the same!",
+        "code": "PW_NEQ"
+      })
       setOpenERR(true);
     }
     else {
@@ -115,10 +154,16 @@ function Cover() {
     } else if (response.data.status === "ERROR") {
       // console.log(response.data)
       setOpenERR(true);
-      setErrMessage("Error happened !")
+      setErrMessage({
+        "msg": "Error happened !",
+        "code": "ERR"
+      })
     } else if (response.data.status === "ERROR_DUP"){
       setOpenERR(true);
-      setErrMessage(response.data.message);
+      setErrMessage({
+        "msg": response.data.message,
+        "code": "UN_DUP"
+      });
     }
   }
 
@@ -158,6 +203,7 @@ function Cover() {
                   name="fullname"
                   value={state.fullname}
                   onChange={handleInput}
+                  inputRef = {fullnameRef}
                 />
               </MDBox>
 
@@ -170,6 +216,7 @@ function Cover() {
                   fullWidth
                   value={state.username}
                   onChange={handleInput}
+                  inputRef = {usernameRef}
                 />
               </MDBox>
 
@@ -182,6 +229,7 @@ function Cover() {
                   fullWidth
                   value={state.password}
                   onChange={handleInput}
+                  inputRef = {passwordRef}
                 />
               </MDBox>
 
@@ -319,7 +367,7 @@ function Cover() {
             variant="h6"
             component="h2"
           >
-            {errMessage}
+            {errMessage.msg}
             <br/><br/>
           </MDTypography>
 
