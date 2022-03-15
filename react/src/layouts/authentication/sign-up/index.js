@@ -67,12 +67,12 @@ function Cover() {
   const [openOK, setOpenOK] = useState(false);
   const [openERR, setOpenERR] = useState(false);
 
-  const handleCloseOK = (e) => {
+  const handleCloseOK = () => {
     setOpenOK(false);
     navigator("http://localhost:3000/profile");
   }
 
-  const handleCloseERR = (e) => {
+  const handleCloseERR = () => {
     setOpenERR(false);
   }
 
@@ -280,6 +280,7 @@ function Cover() {
             component="h2"
           >
             Sign Up successfully !
+            <br/><br/>
           </MDTypography>
 
           <MDButton

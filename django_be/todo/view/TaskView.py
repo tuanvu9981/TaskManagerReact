@@ -116,18 +116,18 @@ def updateAddCriteria(request):
 
 
 """ CHECK TO DELETE """
-# @csrf_exempt
-# def getOneTaskDetail(request):
-#     if request.method == 'GET':
-#         data = json.loads(request.body)
-#         task = TaskElement.objects.get(task_id=data['task_id'])
-#         return JsonResponse(
-#             data={
-#                 "status" : "OK",
-#                 "task" : task.to_json()
-#             }
-#         )
-#     return JsonResponse(data={"status" : "ERROR"})
+@csrf_exempt
+def getOneTaskDetail(request):
+    if request.method == 'GET':
+        data = json.loads(request.body)
+        task = TaskElement.objects.get(task_id=data['task_id'])
+        return JsonResponse(
+            data={
+                "status" : "OK",
+                "task" : task.to_json()
+            }
+        )
+    return JsonResponse(data={"status" : "ERROR"})
 
 
 @csrf_exempt

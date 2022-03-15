@@ -71,7 +71,11 @@ def signIn(request):
                     "message": "Username doesn't exist"
                 }
             )
-    return JsonResponse(data={"status" : "ERROR"})
+    return JsonResponse(
+        data={
+            "status" : "ERROR",
+            "message" : "Network Problem occurred !"
+        })
 
 @csrf_exempt
 def updateAvatar(request):
