@@ -13,6 +13,9 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+
 // @mui material components
 import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
@@ -52,16 +55,37 @@ import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/team-4.jpg";
 
 function Overview() {
-  return (
-    <DashboardLayout>
-      <DashboardNavbar />
-      <MDBox mb={2} />
-      <Header>
-        <MDBox mt={5} mb={3}>
+
+  const [description, setDescription] = useState("");
+  const [topicList, setTopicList] = useState(null);
+
+  //personId = 622b546cc1362bb9ff682b4f
+  useEffect(() => {
+    console.log("Calling useEffec")
+    if (topicList === null) getAllTopic("622b546cc1362bb9ff682b4f");
+  }, []);
+
+  const getAllTopic = async (personId) => {
+    const response = await axios.get(
+      'http://127.0.0.1:8000/todo/getAllTopicOfPerson',
+      { "person_id": personId }
+    );
+    setTopicList(response.data);
+  }
+
+  if (topicList.status === "OK") {
+    return (
+      <DashboardLayout>
+        <DashboardNavbar />
+        <MDBox mb={2} />
+        <Header>
+          {/* <MDBox mt={5} mb={2}>
+
           <Grid container spacing={1}>
             <Grid item xs={12} md={6} xl={4}>
               <PlatformSettings />
             </Grid>
+
             <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
               <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
               <ProfileInfoCard
@@ -95,24 +119,55 @@ function Overview() {
               />
               <Divider orientation="vertical" sx={{ mx: 0 }} />
             </Grid>
+
             <Grid item xs={12} xl={4}>
               <ProfilesList title="conversations" profiles={profilesListData} shadow={false} />
             </Grid>
           </Grid>
-        </MDBox>
-        <MDBox pt={2} px={2} lineHeight={1.25}>
-          <MDTypography variant="h6" fontWeight="medium">
-            Projects
-          </MDTypography>
-          <MDBox mb={1}>
-            <MDTypography variant="button" color="text">
-              Architects design houses
+        </MDBox> */}
+
+          <MDBox pt={2} px={2} lineHeight={1.25}>
+            <MDTypography variant="h6" fontWeight="medium">
+              Projects
             </MDTypography>
+
+            <MDBox mb={1}>
+              <MDTypography variant="button" color="text">
+                Architects design houses
+              </MDTypography>
+            </MDBox>
           </MDBox>
-        </MDBox>
-        <MDBox p={2}>
-          <Grid container spacing={6}>
-            <Grid item xs={12} md={6} xl={3}>
+
+          <MDBox p={2}>
+            <Grid container spacing={6}>
+
+              {topicList.data.topicList.map((topic) => {
+                setDescription(`Done: ${topic.solvedTaskNum}/${topic.totalTaskNum}`);
+                return (
+                  <Grid item xs={12} md={6} xl={3}>
+                    <DefaultProjectCard
+                      image={homeDecor1}
+                      title={topic.topicTitle}
+                      description={description}
+                    // action={{
+                    //   type: "internal",
+                    //   route: "/pages/profile/profile-overview",
+                    //   color: "info",
+                    //   label: "view project",
+                    // }}
+                    // authors={[
+                    //   { image: team1, name: "Elena Morison" },
+                    //   { image: team2, name: "Ryan Milly" },
+                    //   { image: team3, name: "Nick Daniel" },
+                    //   { image: team4, name: "Peterson" },
+                    // ]}
+                    />
+                  </Grid>
+                );
+              })}
+
+
+              {/* <Grid item xs={12} md={6} xl={3}>
               <DefaultProjectCard
                 image={homeDecor1}
                 label="project #2"
@@ -132,6 +187,7 @@ function Overview() {
                 ]}
               />
             </Grid>
+
             <Grid item xs={12} md={6} xl={3}>
               <DefaultProjectCard
                 image={homeDecor2}
@@ -152,6 +208,7 @@ function Overview() {
                 ]}
               />
             </Grid>
+
             <Grid item xs={12} md={6} xl={3}>
               <DefaultProjectCard
                 image={homeDecor3}
@@ -172,6 +229,7 @@ function Overview() {
                 ]}
               />
             </Grid>
+
             <Grid item xs={12} md={6} xl={3}>
               <DefaultProjectCard
                 image={homeDecor4}
@@ -191,13 +249,16 @@ function Overview() {
                   { image: team1, name: "Elena Morison" },
                 ]}
               />
+            </Grid> */}
+
             </Grid>
-          </Grid>
-        </MDBox>
-      </Header>
-      <Footer />
-    </DashboardLayout>
-  );
+          </MDBox>
+        </Header>
+        <Footer />
+      </DashboardLayout>
+
+    );
+  }
 }
 
 export default Overview;

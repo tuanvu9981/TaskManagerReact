@@ -38,10 +38,12 @@ function PlatformSettings() {
           platform settings
         </MDTypography>
       </MDBox>
+
       <MDBox pt={1} pb={2} px={2} lineHeight={1.25}>
         <MDTypography variant="caption" fontWeight="bold" color="text" textTransform="uppercase">
           account
         </MDTypography>
+
         <MDBox display="flex" alignItems="center" mb={0.5} ml={-1.5}>
           <MDBox mt={0.5}>
             <Switch checked={followsMe} onChange={() => setFollowsMe(!followsMe)} />
@@ -52,6 +54,7 @@ function PlatformSettings() {
             </MDTypography>
           </MDBox>
         </MDBox>
+
         <MDBox display="flex" alignItems="center" mb={0.5} ml={-1.5}>
           <MDBox mt={0.5}>
             <Switch checked={answersPost} onChange={() => setAnswersPost(!answersPost)} />
@@ -62,6 +65,7 @@ function PlatformSettings() {
             </MDTypography>
           </MDBox>
         </MDBox>
+
         <MDBox display="flex" alignItems="center" mb={0.5} ml={-1.5}>
           <MDBox mt={0.5}>
             <Switch checked={mentionsMe} onChange={() => setMentionsMe(!mentionsMe)} />
@@ -72,11 +76,13 @@ function PlatformSettings() {
             </MDTypography>
           </MDBox>
         </MDBox>
+
         <MDBox mt={3}>
           <MDTypography variant="caption" fontWeight="bold" color="text" textTransform="uppercase">
             application
           </MDTypography>
         </MDBox>
+
         <MDBox display="flex" alignItems="center" mb={0.5} ml={-1.5}>
           <MDBox mt={0.5}>
             <Switch checked={newLaunches} onChange={() => setNewLaunches(!newLaunches)} />
@@ -87,6 +93,7 @@ function PlatformSettings() {
             </MDTypography>
           </MDBox>
         </MDBox>
+
         <MDBox display="flex" alignItems="center" mb={0.5} ml={-1.5}>
           <MDBox mt={0.5}>
             <Switch checked={productUpdate} onChange={() => setProductUpdate(!productUpdate)} />
@@ -97,6 +104,7 @@ function PlatformSettings() {
             </MDTypography>
           </MDBox>
         </MDBox>
+
         <MDBox display="flex" alignItems="center" mb={0.5} ml={-1.5}>
           <MDBox mt={0.5}>
             <Switch checked={newsletter} onChange={() => setNewsletter(!newsletter)} />
@@ -107,6 +115,7 @@ function PlatformSettings() {
             </MDTypography>
           </MDBox>
         </MDBox>
+        
       </MDBox>
     </Card>
   );
