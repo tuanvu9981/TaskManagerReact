@@ -13,7 +13,7 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import axios from 'axios';
 
 // @mui material components
@@ -56,30 +56,27 @@ import team4 from "assets/images/team-4.jpg";
 
 function Overview() {
 
-  const [description, setDescription] = useState("");
-  const [topicList, setTopicList] = useState(null);
+  const [topicList, setTopicList] = useState([]);
 
   //personId = 622b546cc1362bb9ff682b4f
   useEffect(() => {
-    console.log("Calling useEffec")
-    if (topicList === null) getAllTopic("622b546cc1362bb9ff682b4f");
+    getAllTopic(1212);
   }, []);
 
   const getAllTopic = async (personId) => {
-    const response = await axios.get(
-      'http://127.0.0.1:8000/todo/getAllTopicOfPerson',
-      { "person_id": personId }
-    );
+    const response = await axios.get(`http://localhost:8080/todo/getAllTopicOfPerson?person_id=${personId}`);
+    //const response = await axios.get('http://localhost:8080/todo/getAllTopicOfPerson', { 'person_id': personId });
     setTopicList(response.data);
+    console.log("Run getAllTopic: DONE");
+    console.log(topicList);
   }
 
-  if (topicList.status === "OK") {
-    return (
-      <DashboardLayout>
-        <DashboardNavbar />
-        <MDBox mb={2} />
-        <Header>
-          {/* <MDBox mt={5} mb={2}>
+  return (
+    <DashboardLayout>
+      <DashboardNavbar />
+      <MDBox mb={2} />
+      <Header>
+        {/* <MDBox mt={5} mb={2}>
 
           <Grid container spacing={1}>
             <Grid item xs={12} md={6} xl={4}>
@@ -126,139 +123,54 @@ function Overview() {
           </Grid>
         </MDBox> */}
 
-          <MDBox pt={2} px={2} lineHeight={1.25}>
-            <MDTypography variant="h6" fontWeight="medium">
-              Projects
+        <MDBox pt={2} px={2} lineHeight={1.25}>
+          <MDTypography variant="h6" fontWeight="medium">
+            Projects
+          </MDTypography>
+
+          <MDBox mb={1}>
+            <MDTypography variant="button" color="text">
+              Architects design houses
             </MDTypography>
-
-            <MDBox mb={1}>
-              <MDTypography variant="button" color="text">
-                Architects design houses
-              </MDTypography>
-            </MDBox>
           </MDBox>
+        </MDBox>
 
-          <MDBox p={2}>
-            <Grid container spacing={6}>
+        <MDBox p={2}>
+          <Grid container spacing={6}>
 
-              {topicList.data.topicList.map((topic) => {
-                setDescription(`Done: ${topic.solvedTaskNum}/${topic.totalTaskNum}`);
-                return (
-                  <Grid item xs={12} md={6} xl={3}>
-                    <DefaultProjectCard
-                      image={homeDecor1}
-                      title={topic.topicTitle}
-                      description={description}
-                    // action={{
-                    //   type: "internal",
-                    //   route: "/pages/profile/profile-overview",
-                    //   color: "info",
-                    //   label: "view project",
-                    // }}
-                    // authors={[
-                    //   { image: team1, name: "Elena Morison" },
-                    //   { image: team2, name: "Ryan Milly" },
-                    //   { image: team3, name: "Nick Daniel" },
-                    //   { image: team4, name: "Peterson" },
-                    // ]}
-                    />
-                  </Grid>
-                );
-              })}
+            {topicList.map((topic) => {
+              let tmp = `Done: ${topic.solvedTaskNum}/${topic.totalTaskNum}`;
+              return (
+                <Grid item xs={12} md={6} xl={3} key={topic.topicId}>
+                  <DefaultProjectCard
+                    image={homeDecor1}
+                    label=""
+                    title={topic.topicTitle}
+                    description={tmp}
+                    action={{
+                      type: "internal",
+                      route: "/pages/profile/profile-overview",
+                      color: "info",
+                      label: "view project",
+                    }}
+                    authors={[
+                      { image: team1, name: "Elena Morison" },
+                      { image: team2, name: "Ryan Milly" },
+                      { image: team3, name: "Nick Daniel" },
+                      { image: team4, name: "Peterson" },
+                    ]}
+                  />
+                </Grid>
+              );
+            })}
 
+          </Grid>
+        </MDBox>
+      </Header>
+      <Footer />
+    </DashboardLayout>
 
-              {/* <Grid item xs={12} md={6} xl={3}>
-              <DefaultProjectCard
-                image={homeDecor1}
-                label="project #2"
-                title="modern"
-                description="As Uber works through a huge amount of internal management turmoil."
-                action={{
-                  type: "internal",
-                  route: "/pages/profile/profile-overview",
-                  color: "info",
-                  label: "view project",
-                }}
-                authors={[
-                  { image: team1, name: "Elena Morison" },
-                  { image: team2, name: "Ryan Milly" },
-                  { image: team3, name: "Nick Daniel" },
-                  { image: team4, name: "Peterson" },
-                ]}
-              />
-            </Grid>
-
-            <Grid item xs={12} md={6} xl={3}>
-              <DefaultProjectCard
-                image={homeDecor2}
-                label="project #1"
-                title="scandinavian"
-                description="Music is something that everyone has their own specific opinion about."
-                action={{
-                  type: "internal",
-                  route: "/pages/profile/profile-overview",
-                  color: "info",
-                  label: "view project",
-                }}
-                authors={[
-                  { image: team3, name: "Nick Daniel" },
-                  { image: team4, name: "Peterson" },
-                  { image: team1, name: "Elena Morison" },
-                  { image: team2, name: "Ryan Milly" },
-                ]}
-              />
-            </Grid>
-
-            <Grid item xs={12} md={6} xl={3}>
-              <DefaultProjectCard
-                image={homeDecor3}
-                label="project #3"
-                title="minimalist"
-                description="Different people have different taste, and various types of music."
-                action={{
-                  type: "internal",
-                  route: "/pages/profile/profile-overview",
-                  color: "info",
-                  label: "view project",
-                }}
-                authors={[
-                  { image: team4, name: "Peterson" },
-                  { image: team3, name: "Nick Daniel" },
-                  { image: team2, name: "Ryan Milly" },
-                  { image: team1, name: "Elena Morison" },
-                ]}
-              />
-            </Grid>
-
-            <Grid item xs={12} md={6} xl={3}>
-              <DefaultProjectCard
-                image={homeDecor4}
-                label="project #4"
-                title="gothic"
-                description="Why would anyone pick blue over pink? Pink is obviously a better color."
-                action={{
-                  type: "internal",
-                  route: "/pages/profile/profile-overview",
-                  color: "info",
-                  label: "view project",
-                }}
-                authors={[
-                  { image: team4, name: "Peterson" },
-                  { image: team3, name: "Nick Daniel" },
-                  { image: team2, name: "Ryan Milly" },
-                  { image: team1, name: "Elena Morison" },
-                ]}
-              />
-            </Grid> */}
-
-            </Grid>
-          </MDBox>
-        </Header>
-        <Footer />
-      </DashboardLayout>
-
-    );
-  }
+  );
 }
 
 export default Overview;
