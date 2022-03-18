@@ -75,11 +75,6 @@ function Basic() {
   const [errMessage, setErrMessage] = useState("");
   const [openOK, setOpenOK] = useState(false);
   const [openERR, setOpenERR] = useState(false);
-  const [person, setPerson] = useState({
-    person_id: "",
-    fullname: "",
-    avatarLink: ""
-  });
 
   const handleInput = (e) => {
     e.persist();
@@ -111,7 +106,6 @@ function Basic() {
         fullname: response.data.person.fullname,
         avatarLink: response.data.person.avatarLink
       }
-      // setPerson(person_now);
       dispatcher(signInAction(person_now));
       setOpenOK(true);
     } else {

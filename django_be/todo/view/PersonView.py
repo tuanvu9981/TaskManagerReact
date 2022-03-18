@@ -24,6 +24,7 @@ def signUp(request):
         person = Person()
         person.username = data['username'].strip()
         person.fullname = data['fullname'].strip()
+        person.email = data['email'].strip()
         person.password = generate_password_hash(data['password'].strip())
         person.avatarLink = "default_avatar.png"
         person.save()

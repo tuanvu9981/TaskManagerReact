@@ -76,11 +76,13 @@ class Person(Document):
     avatarLink = fields.StringField(max_length=400)
     username = fields.StringField(max_length=100)
     password = fields.StringField(max_length=400)
+    email = fields.EmailField(max_length=100)
     topicList = fields.ListField(fields.ReferenceField(document_type=TopicElement))
 
     def to_json(self, *args, **kwargs):
         return {
             "person_id" : str(self.pk),
             "fullname" : self.fullname,
-            "avatarLink": self.avatarLink
+            "avatarLink": self.avatarLink,
+            "email": self.email
         }
