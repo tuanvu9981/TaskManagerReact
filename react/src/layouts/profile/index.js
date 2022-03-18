@@ -48,24 +48,25 @@ function Overview() {
 
   //personId = 622b546cc1362bb9ff682b4f
   useEffect(() => {
-    getAllTopic(1212);
+    getAllTopic("622b546cc1362bb9ff682b4f");
   }, []);
 
   const getAllTopic = async (personId) => {
-    //matching API of Spring
     const data = {
       'person_id': personId
     }
-    //const response = await axios.get(`http://localhost:8080/todo/getAllTopicOfPerson?person_id=${personId}`);
-    const response = await axios.get('http://localhost:8080/todo/getAllTopicOfPerson', { params: data });
-    setTopicList(response.data);
-    console.log("Run getAllTopic: DONE");
-    console.log(topicList);
 
-    // const response = await axios.get('http://localhost:8080/todo/getAllTopicOfPerson', { params : data });
-    // if (response.data.status === "OK") {
-    //   setTopicList(response.data.topicList)
-    // }
+    // matching API of Spring
+    // const response = await axios.get('http://localhost:8080/todo/getAllTopicOfPerson', { params: data });
+    // setTopicList(response.data);
+    // console.log("Run getAllTopic: DONE");
+    // console.log(topicList);
+
+    // matching API of Django
+    const response = await axios.get('http://localhost:8000/todo/getAllTopicOfPerson', { params : data });
+    if (response.data.status === "OK") {
+      setTopicList(response.data.topicList)
+    }
   }
 
   return (
@@ -91,8 +92,8 @@ function Overview() {
             {topicList.map((topic) => {
               let tmp = `Done: ${topic.solvedTaskNum}/${topic.totalTaskNum}`;
               return (
-                //<Grid item xs={12} md={6} xl={3} key={topic.topic_id}>
-                <Grid item xs={12} md={6} xl={3} key={topic.topicId}>
+                <Grid item xs={12} md={6} xl={3} key={topic.topic_id}>
+                {/* <Grid item xs={12} md={6} xl={3} key={topic.topicId}> */}
                   <DefaultProjectCard
                     image={homeDecor1}
                     label=""

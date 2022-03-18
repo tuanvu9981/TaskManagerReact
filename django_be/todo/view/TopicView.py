@@ -34,9 +34,9 @@ def createNewTopic(request):
 def getAllTopicOfPerson(request):
     if request.method == 'GET':
 
-        data = json.loads(request.body)
+        person_id = request.GET.get('person_id')
 
-        owner = Person.objects.get(person_id=ObjectId(data['person_id']))
+        owner = Person.objects.get(person_id=ObjectId(person_id))
         topicList = []
 
         for topic in owner.topicList:
