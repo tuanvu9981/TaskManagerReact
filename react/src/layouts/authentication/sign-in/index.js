@@ -14,6 +14,8 @@ Coded by www.creative-tim.com
 */
 
 import { useState, useRef } from "react";
+import { useDispatch } from "react-redux";
+import { signInAction } from "redux/actions";
 import axios from "axios";
 
 // react-router-dom components
@@ -68,10 +70,16 @@ function Basic() {
     "username": "",
     "password": ""
   })
+  const dispatcher = useDispatch();
 
   const [errMessage, setErrMessage] = useState("");
   const [openOK, setOpenOK] = useState(false);
   const [openERR, setOpenERR] = useState(false);
+  const [person, setPerson] = useState({
+    person_id: "",
+    fullname: "",
+    avatarLink: ""
+  });
 
   const handleInput = (e) => {
     e.persist();
@@ -79,7 +87,9 @@ function Basic() {
   }
 
   const navigator = useNavigate();
+
   const handleCloseOK = () => {
+    // dispatcher(signInAction(person));
     setOpenOK(false);
     navigator("http://localhost:3000/profile");
   }
@@ -96,6 +106,13 @@ function Basic() {
 
     const response = await axios.post('http://127.0.0.1:8000/todo/signIn', data)
     if (response.data.status === "OK") {
+      const person_now = {
+        person_id: response.data.person.person_id,
+        fullname: response.data.person.fullname,
+        avatarLink: response.data.person.avatarLink
+      }
+      // setPerson(person_now);
+      dispatcher(signInAction(person_now));
       setOpenOK(true);
     } else {
       setOpenERR(true);
@@ -232,7 +249,7 @@ function Basic() {
             textAlign="center"
           >
             Welcome back to TaskManager
-            <br/><br />
+            <br /><br />
           </MDTypography>
 
           <MDButton

@@ -14,6 +14,8 @@ Coded by www.creative-tim.com
 */
 
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { personIdSelector } from '../../redux/selectors';
 import axios from 'axios';
 
 // @mui material components
@@ -45,10 +47,27 @@ import team4 from "assets/images/team-4.jpg";
 function Overview() {
 
   const [topicList, setTopicList] = useState([]);
+  const currentPersonId = useSelector(personIdSelector);
 
+  if (currentPersonId === undefined){
+    return (
+      <DashboardLayout>
+      <DashboardNavbar />
+      <MDBox mb={2} />
+      <Header>
+        <MDBox pt={2} px={2} lineHeight={1.25}>
+          <MDTypography variant="h6" fontWeight="medium">
+            You need to sign in or sign up
+          </MDTypography>
+        </MDBox>
+      </Header>
+      <Footer />
+    </DashboardLayout>
+    );
+  }
   //personId = 622b546cc1362bb9ff682b4f
   useEffect(() => {
-    getAllTopic("622b546cc1362bb9ff682b4f");
+    getAllTopic(currentPersonId);
   }, []);
 
   const getAllTopic = async (personId) => {
@@ -63,12 +82,12 @@ function Overview() {
     // console.log(topicList);
 
     // matching API of Django
-    const response = await axios.get('http://localhost:8000/todo/getAllTopicOfPerson', { params : data });
+    const response = await axios.get('http://localhost:8000/todo/getAllTopicOfPerson', { params: data });
     if (response.data.status === "OK") {
       setTopicList(response.data.topicList)
     }
   }
-
+  
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -93,7 +112,7 @@ function Overview() {
               let tmp = `Done: ${topic.solvedTaskNum}/${topic.totalTaskNum}`;
               return (
                 <Grid item xs={12} md={6} xl={3} key={topic.topic_id}>
-                {/* <Grid item xs={12} md={6} xl={3} key={topic.topicId}> */}
+                  {/* <Grid item xs={12} md={6} xl={3} key={topic.topicId}> */}
                   <DefaultProjectCard
                     image={homeDecor1}
                     label=""

@@ -1,18 +1,18 @@
-export const signIn = (signInData) => {
+export const signInAction = (signInData) => {
     return {
         type: "signIn",
         payload: signInData
     }
 }
 
-export const signUp = (signUpData) => {
+export const signUpAction = (signUpData) => {
     return {
         type: "signUp",
         payload: signUpData
     }
 }
 
-export const logout = () => {
+export const logoutAction = () => {
     return {
         type: "logout"
     }

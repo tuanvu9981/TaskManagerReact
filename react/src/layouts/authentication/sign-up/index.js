@@ -13,10 +13,10 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-// react-router-dom components
 import { Link, useNavigate } from "react-router-dom";
-
 import { useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { signUp } from "redux/actions";
 import axios from "axios";
 
 // @mui material components
@@ -74,6 +74,8 @@ function Cover() {
   const usernameRef = useRef('');
   const passwordRef = useRef('');
 
+  const dispatcher = useDispatch();
+  
   const handleCloseOK = () => {
     setOpenOK(false);
     navigator("http://localhost:3000/profile");
@@ -143,6 +145,14 @@ function Cover() {
 
     if (response.data.status === "OK") {
       // console.log(response.data)
+      const newPerson = {
+        person_id : response.data.person.person_id,
+        fullname: response.data.person.fullname,
+        avatarLink: response.data.person.avatarLink
+      }
+
+      dispatcher(signUp(newPerson));
+
       setOpenOK(true);
 
       setState({

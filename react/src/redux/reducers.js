@@ -12,11 +12,10 @@ const initState = {
 const rootReducer = (state = initState, action) => {
     switch (action.type) {
         case 'signIn':
-            break;
         case 'signUp':
             return {
                 ...state,
-                person: action.person
+                person: action.payload
             }
 
         case 'logout':

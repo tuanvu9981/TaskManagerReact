@@ -119,8 +119,8 @@ def updateAddCriteria(request):
 @csrf_exempt
 def getOneTaskDetail(request):
     if request.method == 'GET':
-        data = json.loads(request.body)
-        task = TaskElement.objects.get(task_id=data['task_id'])
+        task_id = request.GET.get('task_id')
+        task = TaskElement.objects.get(task_id=task_id)
         return JsonResponse(
             data={
                 "status" : "OK",

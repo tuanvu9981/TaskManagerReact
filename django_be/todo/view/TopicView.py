@@ -34,8 +34,8 @@ def createNewTopic(request):
 def getAllTopicOfPerson(request):
     if request.method == 'GET':
 
+        """ retrieve from param request """
         person_id = request.GET.get('person_id')
-
         owner = Person.objects.get(person_id=ObjectId(person_id))
         topicList = []
 
@@ -57,7 +57,7 @@ def deleteOneTopic(request):
     if request.method == 'PUT':
         """ DELETE ONE TOPIC == UPDATE, PULLING OUT OF LIST """
 
-        data = json.loads((request.body))
+        data = json.loads(request.body)
 
         owner = Person.objects.get(person_id=ObjectId(data['person_id']))
         topic = TopicElement.objects.get(topic_id=ObjectId(data['topic_id']))
@@ -101,8 +101,8 @@ def updateTopicTitle(request):
 @csrf_exempt
 def getOneTopicDetail(request):
     if request.method == 'GET':
-        data = json.loads(request.body)
-        topic = TopicElement.objects.get(topic_id=ObjectId(data['topic_id']))
+        topic_id = request.GET.get('topic_id')
+        topic = TopicElement.objects.get(topic_id=ObjectId(topic_id))
 
         return JsonResponse(
             data={
