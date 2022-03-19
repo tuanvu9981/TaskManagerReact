@@ -23,7 +23,6 @@ def createNewTopic(request):
             data={
                 "status" : "OK",
                 "topic": topic.to_DTO(),
-                "owner_id": str(owner.pk),
             }
         )
     return JsonResponse(

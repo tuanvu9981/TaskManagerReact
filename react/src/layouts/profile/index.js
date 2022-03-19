@@ -20,10 +20,20 @@ import axios from 'axios';
 
 // @mui material components
 import Grid from "@mui/material/Grid";
+import { Button } from "@mui/material";
+import Card from "@mui/material/Card";
+import Icon from "@mui/material/Icon";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { TextField } from "@mui/material";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
+import MDInput from "components/MDInput";
 
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -48,6 +58,8 @@ import team4 from "assets/images/team-4.jpg";
 function Overview() {
 
   const [topicList, setTopicList] = useState([]);
+  const [newTopicName, setNewTopicName] = useState("");
+  const [control, setControl] = useState(false);
   const currentPersonId = useSelector(personIdSelector);
 
   if (currentPersonId === undefined) {
@@ -89,70 +101,117 @@ function Overview() {
     }
   }
 
-  const onCreateNewTopic = () => {
-    console.log("CREATE A NEW TOPIC");
+  const onNewTopicName = (e) => setNewTopicName(e.target.value);
+  const handleClose = () => setControl(false);
+  const onChangeControl = () => setControl(true);
+
+  const onCreateNewTopic = async () => {
+    setControl(false);
+    setNewTopicName("");
+    const data = {
+      'topicTitle': newTopicName,
+      'person_id': currentPersonId
+    }
+    const res = await axios.post('http://localhost:8000/todo/createNewTopic', data);
+    if (res.data.status === "OK") {
+      setTopicList([...topicList, res.data.topic]);
+    }
   }
 
   return (
-    <DashboardLayout>
-      <DashboardNavbar />
-      <MDBox mb={2} />
-      <Header>
-        <MDBox pt={2} px={2} lineHeight={1.25}>
-          <MDTypography variant="h6" fontWeight="medium">
-            My Topics
-          </MDTypography>
+    <>
+      <DashboardLayout>
+        <DashboardNavbar />
+        <MDBox mb={2} />
+        <Header>
+          <MDBox pt={2} px={2} lineHeight={1.25}>
+            <MDTypography variant="h6" fontWeight="medium">
+              My Topics
+            </MDTypography>
 
-          {/* <MDBox mb={5}>
+            {/* <MDBox mb={5}>
             <MDTypography variant="button" color="text">
               Architects design houses
             </MDTypography>
           </MDBox> mb: khoang cach so voi le duoi*/}
-        </MDBox>
+          </MDBox>
 
-        <MDBox p={2}>
-          <Grid container spacing={6}>
+          <MDBox p={2}>
+            <Grid container spacing={6}>
 
-            {topicList.map((topic) => {
-              let tmp = `Done: ${topic.solvedTaskNum}/${topic.totalTaskNum}`;
-              return (
-                <Grid item xs={12} md={6} xl={3} key={topic.topic_id}>
-                  {/* <Grid item xs={12} md={6} xl={3} key={topic.topicId}> */}
-                  <DefaultProjectCard
-                    image={homeDecor1}
-                    label=""
-                    title={topic.topicTitle}
-                    description={tmp}
-                    action={{
-                      type: "internal",
-                      route: "/pages/profile/profile-overview",
-                      color: "info",
-                      label: "view topic",
-                    }}
-                    authors={[
-                      { image: team1, name: "Elena Morison" },
-                      { image: team2, name: "Ryan Milly" },
-                      { image: team3, name: "Nick Daniel" },
-                      { image: team4, name: "Peterson" },
-                    ]}
+              {topicList.map((topic) => {
+                let tmp = `Done: ${topic.solvedTaskNum}/${topic.totalTaskNum}`;
+                return (
+                  <Grid item xs={12} md={6} xl={3} key={topic.topic_id}>
+                    {/* <Grid item xs={12} md={6} xl={3} key={topic.topicId}> */}
+                    <DefaultProjectCard
+                      image={homeDecor1}
+                      label=""
+                      title={topic.topicTitle}
+                      description={tmp}
+                      action={{
+                        type: "internal",
+                        route: "/pages/profile/profile-overview",
+                        color: "info",
+                        label: "view topic",
+                      }}
+                      authors={[
+                        { image: team1, name: "Elena Morison" },
+                        { image: team2, name: "Ryan Milly" },
+                        { image: team3, name: "Nick Daniel" },
+                        { image: team4, name: "Peterson" },
+                      ]}
+                    />
+                  </Grid>
+                );
+              })}
+
+              <Grid item xs={12} md={6} xl={3}>
+                {/* <Grid item xs={12} md={6} xl={3}> */}
+                <Button onClick={onChangeControl}>
+                  <PlaceholderCard
+                    title={{ variant: "h5", text: "New topic" }}
+                    outlined
                   />
-                </Grid>
-              );
-            })}
+                </Button>
+                {/* </Grid> */}
+              </Grid>
 
-            <Grid item xs={12} md={6} xl={3}>
-              <PlaceholderCard
-                title={{ variant: "h5", text: "New topic" }}
-                outlined
-              />
             </Grid>
+          </MDBox>
+        </Header>
+        <Footer />
+      </DashboardLayout>
 
-          </Grid>
-        </MDBox>
-      </Header>
-      <Footer />
-    </DashboardLayout>
+      <Dialog open={control} onClose={handleClose}>
 
+        <DialogTitle>
+          <MDTypography
+            variant="h6"
+            fontWeight="bold"
+            color="info"
+            align="center"
+          >
+            Enter new Topic name
+          </MDTypography>
+        </DialogTitle>
+
+        <DialogContent>
+          <MDInput
+            label="Topic Name"
+            type="text"
+            fullWidth
+            variant="standard"
+            value={newTopicName}
+            onChange={onNewTopicName}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} >Cancel</Button>
+          <Button onClick={onCreateNewTopic} >Submit</Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 }
 

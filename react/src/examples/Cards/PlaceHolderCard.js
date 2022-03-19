@@ -20,7 +20,7 @@ import Icon from "@mui/material/Icon";
 import SuiBox from "../../components/SuiBox"
 import SuiTypography from "../../components/SuiTypography";
 
-function PlaceholderCard({ icon, title, hasBorder, outlined }) {
+function PlaceholderCard({ icon, title, hasBorder, outlined}) {
   return (
     <Card
       raised

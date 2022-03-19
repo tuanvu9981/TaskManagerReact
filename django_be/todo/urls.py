@@ -20,3 +20,23 @@ urlpatterns = [
     path('updateAddCriteria', TaskView.updateAddCriteria),
     path('updateTaskStatus', TaskView.updateTaskStatus)
 ]
+
+""" 
+    [DONE] 'signUp'
+    [DONE] 'signIn' 
+    'updateAvatar'
+    'updatePassword'
+
+    [DONE] 'createNewTopic'
+    [DONE] 'getAllTopicOfPerson'
+    'deleteOneTopic'
+    'updateTopicTitle'
+    'getOneTopicDetail'
+
+    'createNewTask'
+    'getOneTaskDetail'
+    'deleteTask'
+    'updateOneTask'
+    'updateAddCriteria'
+    'updateTaskStatus'
+"""

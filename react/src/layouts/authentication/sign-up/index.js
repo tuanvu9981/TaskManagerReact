@@ -138,7 +138,8 @@ function Cover() {
     const data = {
       "username": state.username,
       "fullname": state.fullname,
-      "password": state.password
+      "password": state.password,
+      "email": state.email
     }
 
     const response = await axios.post('http://127.0.0.1:8000/todo/signUp', data);

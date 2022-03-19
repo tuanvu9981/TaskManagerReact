@@ -26,6 +26,7 @@ class TaskElement(Document):
 
 class TopicElement(Document):
     topic_id = fields.ObjectIdField(default=ObjectId, primary_key=True)
+    image = fields.StringField(default="topic_image.png", max_length=400)
     topicTitle = fields.StringField(max_length=100)
     solvedTaskNum = fields.IntField(default=0)
     totalTaskNum = fields.IntField(default=0)
