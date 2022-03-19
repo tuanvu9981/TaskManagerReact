@@ -15,7 +15,7 @@ Coded by www.creative-tim.com
 
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { signUpAction } from "redux/actions";
 import axios from "axios";
 

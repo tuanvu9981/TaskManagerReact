@@ -1,9 +1,9 @@
 /**
 =========================================================
-* Material Dashboard 2 React - v2.1.0
+* Soft UI Dashboard React - v3.1.0
 =========================================================
 
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
+* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-react
 * Copyright 2022 Creative Tim (https://www.creative-tim.com)
 
 Coded by www.creative-tim.com
@@ -18,42 +18,26 @@ import { forwardRef } from "react";
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
 
-// Custom styles for MDTypography
-import MDTypographyRoot from "components/MDTypography/MDTypographyRoot";
+// Custom styles for SuiTypography
+import SuiTypographyRoot from "./SuiTypographyRoot";
 
-// Material Dashboard 2 React contexts
-import { useMaterialUIController } from "context";
-
-const MDTypography = forwardRef(
+const SuiTypography = forwardRef(
   (
     { color, fontWeight, textTransform, verticalAlign, textGradient, opacity, children, ...rest },
     ref
-  ) => {
-    const [controller] = useMaterialUIController();
-    const { darkMode } = controller;
-
-    return (
-      <MDTypographyRoot
-        {...rest}
-        ref={ref}
-        ownerState={{
-          color,
-          textTransform,
-          verticalAlign,
-          fontWeight,
-          opacity,
-          textGradient,
-          darkMode,
-        }}
-      >
-        {children}
-      </MDTypographyRoot>
-    );
-  }
+  ) => (
+    <SuiTypographyRoot
+      {...rest}
+      ref={ref}
+      ownerState={{ color, textTransform, verticalAlign, fontWeight, opacity, textGradient }}
+    >
+      {children}
+    </SuiTypographyRoot>
+  )
 );
 
-// Setting default values for the props of MDTypography
-MDTypography.defaultProps = {
+// Setting default values for the props of SuiTypography
+SuiTypography.defaultProps = {
   color: "dark",
   fontWeight: false,
   textTransform: "none",
@@ -62,8 +46,8 @@ MDTypography.defaultProps = {
   opacity: 1,
 };
 
-// Typechecking props for the MDTypography
-MDTypography.propTypes = {
+// Typechecking props for the SuiTypography
+SuiTypography.propTypes = {
   color: PropTypes.oneOf([
     "inherit",
     "primary",
@@ -91,8 +75,8 @@ MDTypography.propTypes = {
     "bottom",
   ]),
   textGradient: PropTypes.bool,
-  // children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired,
   opacity: PropTypes.number,
 };
 
-export default MDTypography;
+export default SuiTypography;
