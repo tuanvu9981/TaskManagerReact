@@ -3,7 +3,8 @@ const initState = {
     person: {
         person_id: undefined,
         fullname: undefined,
-        avatarLink: undefined
+        avatarLink: undefined,
+        email: undefined
     },
     topic_id: undefined,
     task_id: undefined

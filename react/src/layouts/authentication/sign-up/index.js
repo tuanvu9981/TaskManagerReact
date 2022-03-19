@@ -57,6 +57,7 @@ function Cover() {
     {
       "fullname": "",
       "username": "",
+      "email": "",
       "password": "",
       "confirmPassword": ""
     }
@@ -78,7 +79,7 @@ function Cover() {
   
   const handleCloseOK = () => {
     setOpenOK(false);
-    navigator("http://localhost:3000/profile");
+    navigator("/profile");
   }
 
   const handleCloseERR = () => {
@@ -148,7 +149,8 @@ function Cover() {
       const newPerson = {
         person_id : response.data.person.person_id,
         fullname: response.data.person.fullname,
-        avatarLink: response.data.person.avatarLink
+        avatarLink: response.data.person.avatarLink,
+        email: response.data.person.email
       }
 
       dispatcher(signUpAction(newPerson));
@@ -158,6 +160,7 @@ function Cover() {
         "fullname": "",
         "username": "",
         "password": "",
+        "email": "",
         "confirmPassword": ""
       })
     } else if (response.data.status === "ERROR") {
@@ -226,6 +229,18 @@ function Cover() {
                   value={state.username}
                   onChange={handleInput}
                   inputRef = {usernameRef}
+                />
+              </MDBox>
+
+              <MDBox mb={3}>
+                <MDInput
+                  name="email"
+                  type="email"
+                  label="Email"
+                  variant="standard"
+                  fullWidth
+                  value={state.email}
+                  onChange={handleInput}
                 />
               </MDBox>
 

@@ -86,7 +86,7 @@ function Basic() {
   const handleCloseOK = () => {
     // dispatcher(signInAction(person));
     setOpenOK(false);
-    navigator("http://localhost:3000/profile");
+    navigator("/profile");
   }
 
   const handleCloseERR = () => {
