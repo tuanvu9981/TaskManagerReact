@@ -104,7 +104,8 @@ function Basic() {
       const person_now = {
         person_id: response.data.person.person_id,
         fullname: response.data.person.fullname,
-        avatarLink: response.data.person.avatarLink
+        avatarLink: response.data.person.avatarLink,
+        email: response.data.person.email
       }
       dispatcher(signInAction(person_now));
       setOpenOK(true);

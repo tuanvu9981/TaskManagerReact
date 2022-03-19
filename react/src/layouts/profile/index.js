@@ -167,14 +167,12 @@ function Overview() {
               })}
 
               <Grid item xs={12} md={6} xl={3}>
-                {/* <Grid item xs={12} md={6} xl={3}> */}
                 <Button onClick={onChangeControl}>
                   <PlaceholderCard
                     title={{ variant: "h5", text: "New topic" }}
                     outlined
                   />
                 </Button>
-                {/* </Grid> */}
               </Grid>
 
             </Grid>

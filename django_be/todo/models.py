@@ -40,6 +40,7 @@ class TopicElement(Document):
 
         return {
             "topic_id" : str(self.pk),
+            "image": self.image,
             "topicTitle" : self.topicTitle,
             "solvedTaskNum" : self.solvedTaskNum,
             "totalTaskNum" : self.totalTaskNum,
@@ -52,6 +53,7 @@ class TopicElement(Document):
             "topicTitle": self.topicTitle,
             "solvedTaskNum": self.solvedTaskNum,
             "totalTaskNum": self.totalTaskNum,
+            "image": self.image,
         }
 
 """ This two class represents EmbeddedDocumentField & List """
