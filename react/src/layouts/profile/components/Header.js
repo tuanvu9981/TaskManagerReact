@@ -30,6 +30,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -118,7 +119,8 @@ function Header({ children }) {
               </MDBox>
             </Grid>
 
-            <Grid item xs={12} md={6} lg={4} sx={{ ml: "auto" }}>
+            {/* SHITTTTT: lg = {6} --> DONE ! */}
+            <Grid item xs={12} md={2} lg={5} sx={{ ml: "auto" }}>
               <AppBar position="static">
                 <Tabs
                   orientation={tabsOrientation}
@@ -126,22 +128,25 @@ function Header({ children }) {
                   onChange={handleSetTabValue}
                   aria-label="disabled tabs example"
                 >
+                  <Grid>
+                    <MDButton
+                      variant="outlined"
+                      color="info"
+                    >
+                      <ManageAccountsIcon/>&nbsp;
+                      change avatar
+                    </MDButton>
+                  </Grid>
 
-                  <MDButton
-                    variant="outlined"
-                    color="info"
-                  >
-                    <Icon fontSize="small"> settings </Icon>&nbsp;
-                    change avatar
-                  </MDButton>
-
-                  <MDButton
-                    variant="outlined"
-                    color="info"
-                  >
-                    <Icon fontSize="small" > settings </Icon>&nbsp;
-                    change password
-                  </MDButton>
+                  <Grid ml={3}>
+                    <MDButton
+                      variant="outlined"
+                      color="info"
+                    >
+                      <ManageAccountsIcon/>&nbsp;
+                      change password
+                    </MDButton>
+                  </Grid>
 
                 </Tabs>
               </AppBar>
@@ -176,7 +181,7 @@ function Header({ children }) {
           // onChange={onNewTopicName}
           />
 
-          <br/><br/>
+          <br /><br />
           <MDInput
             label="New password"
             type="password"
@@ -192,7 +197,7 @@ function Header({ children }) {
           >Cancel
           </MDButton>
           <MDButton
-            // onClick={onCreateNewTopic}
+          // onClick={onCreateNewTopic}
           >Submit
           </MDButton>
         </DialogActions>
