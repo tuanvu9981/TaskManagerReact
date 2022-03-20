@@ -17,3 +17,10 @@ export const logoutAction = () => {
         type: "logout"
     }
 }
+
+export const setCurrentTopicList = (newTopicList) => {
+    return {
+        type: "currentTPL",
+        payload: newTopicList
+    }
+}

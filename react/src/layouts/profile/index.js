@@ -14,7 +14,7 @@ Coded by www.creative-tim.com
 */
 
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { personIdSelector } from '../../redux/selectors';
 import axios from 'axios';
 
@@ -45,6 +45,8 @@ import PlaceholderCard from "examples/Cards/PlaceHolderCard";
 // Overview page components
 import Header from "layouts/profile/components/Header";
 
+import { setCurrentTopicList } from "../../redux/actions";
+
 // Images
 import homeDecor1 from "assets/images/home-decor-1.jpg";
 import homeDecor2 from "assets/images/home-decor-2.jpg";
@@ -57,10 +59,12 @@ import team4 from "assets/images/team-4.jpg";
 
 function Overview() {
 
-  const [topicList, setTopicList] = useState([]);
+  const topicList = useSelector((state) => state.topicList);
+  
   const [newTopicName, setNewTopicName] = useState("");
   const [control, setControl] = useState(false);
   const currentPersonId = useSelector(personIdSelector);
+  const dispatcher = useDispatch();
 
   if (currentPersonId === undefined) {
     return (
@@ -97,7 +101,8 @@ function Overview() {
     // matching API of Django
     const response = await axios.get('http://localhost:8000/todo/getAllTopicOfPerson', { params: data });
     if (response.data.status === "OK") {
-      setTopicList(response.data.topicList)
+      // setTopicList(response.data.topicList);
+      dispatcher(setCurrentTopicList(response.data.topicList));
     }
   }
 
@@ -114,7 +119,8 @@ function Overview() {
     }
     const res = await axios.post('http://localhost:8000/todo/createNewTopic', data);
     if (res.data.status === "OK") {
-      setTopicList([...topicList, res.data.topic]);
+      // setTopicList([...topicList, res.data.topic]);
+      dispatcher(setCurrentTopicList([...topicList, res.data.topic]));
     }
   }
 
@@ -145,6 +151,7 @@ function Overview() {
                   <Grid item xs={12} md={6} xl={3} key={topic.topic_id}>
                     {/* <Grid item xs={12} md={6} xl={3} key={topic.topicId}> */}
                     <DefaultProjectCard
+                      topic_id = {topic.topic_id}
                       image={homeDecor1}
                       label=""
                       title={topic.topicTitle}

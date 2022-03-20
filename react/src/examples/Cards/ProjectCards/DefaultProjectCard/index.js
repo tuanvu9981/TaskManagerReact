@@ -15,6 +15,8 @@ Coded by www.creative-tim.com
 
 // react-router-dom components
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { setCurrentTopicList } from "../../../../redux/actions";
 
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
@@ -24,14 +26,49 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import Tooltip from "@mui/material/Tooltip";
 import Grid from "@mui/material/Grid";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { Button } from "@mui/material";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 import MDAvatar from "components/MDAvatar";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { personIdSelector } from "redux/selectors";
 
-function DefaultProjectCard({ image, label, title, description, action, authors }) {
+function DefaultProjectCard({ image, label, title, description, action, authors, topic_id }) {
+
+  const [controlDel, setControlDel] = useState(false);
+  const personId = useSelector(personIdSelector);
+  const currentTopicList = useSelector((state) => state.topicList);
+  const dispatcher = useDispatch();
+
+  const handleCloseDelete = () => setControlDel(false);
+  const onClickDel = () => setControlDel(true);
+
+  const onDeleteTopic = async () => {
+    setControlDel(false);
+    const data = {
+      'person_id': personId,
+      'topic_id': topic_id
+    }
+
+    const response = await axios.put('http://localhost:8000/todo/deleteOneTopic', data);
+    if (response.data.status === "OK") {
+      const newTopicList = currentTopicList.filter((topic) => { 
+        return topic.topic_id !== data.topic_id 
+      });
+
+      dispatcher(setCurrentTopicList(newTopicList));
+    }
+  }
+
   const renderAuthors = authors.map(({ image: media, name }) => (
     <Tooltip key={name} title={name} placement="bottom">
       <MDAvatar
@@ -53,110 +90,131 @@ function DefaultProjectCard({ image, label, title, description, action, authors 
   ));
 
   return (
-    <Card
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        backgroundColor: "transparent",
-        boxShadow: "none",
-        overflow: "visible",
-      }}
-    >
+    <>
+      <Card
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          backgroundColor: "transparent",
+          boxShadow: "none",
+          overflow: "visible",
+        }}
+      >
 
-      <MDBox position="relative" width="100.25%" shadow="xl" borderRadius="xl">
-        <CardMedia
-          src={image}
-          component="img"
-          title={title}
-          sx={{
-            maxWidth: "100%",
-            margin: 0,
-            boxShadow: ({ boxShadows: { md } }) => md,
-            objectFit: "cover",
-            objectPosition: "center",
-          }}
-        />
-      </MDBox>
-
-      <MDBox mt={1} mx={0.5}>
-
-        <MDTypography variant="button" fontWeight="regular" color="text" textTransform="capitalize">
-          {label}
-        </MDTypography>
-
-        <MDBox mb={1}>
-          {action.type === "internal" ? (
-            <MDTypography
-              component={Link}
-              to={action.route}
-              variant="h5"
-              textTransform="capitalize"
-            >
-              {title}
-            </MDTypography>
-          ) : (
-            <MDTypography
-              component="a"
-              href={action.route}
-              target="_blank"
-              rel="noreferrer"
-              variant="h5"
-              textTransform="capitalize"
-            >
-              {title}
-            </MDTypography>
-          )}
+        <MDBox position="relative" width="100.25%" shadow="xl" borderRadius="xl">
+          <CardMedia
+            src={image}
+            component="img"
+            title={title}
+            sx={{
+              maxWidth: "100%",
+              margin: 0,
+              boxShadow: ({ boxShadows: { md } }) => md,
+              objectFit: "cover",
+              objectPosition: "center",
+            }}
+          />
         </MDBox>
 
-        <MDBox mb={3} lineHeight={0}>
-          <MDTypography variant="h6" fontWeight="bold" color="info">
-            {description}
+        <MDBox mt={1} mx={0.5}>
+
+          <MDTypography variant="button" fontWeight="regular" color="text" textTransform="capitalize">
+            {label}
           </MDTypography>
-        </MDBox>
 
-        <MDBox md={3} display="flex" justifyContent="space-between" alignItems="center">
-          {action.type === "internal" ? (
-            <>
-              <MDButton
+          <MDBox mb={1}>
+            {action.type === "internal" ? (
+              <MDTypography
                 component={Link}
                 to={action.route}
-                variant="outlined"
-                size="small"
-                color="info"
+                variant="h5"
+                textTransform="capitalize"
               >
-                View Topic
-              </MDButton>
+                {title}
+              </MDTypography>
+            ) : (
+              <MDTypography
+                component="a"
+                href={action.route}
+                target="_blank"
+                rel="noreferrer"
+                variant="h5"
+                textTransform="capitalize"
+              >
+                {title}
+              </MDTypography>
+            )}
+          </MDBox>
 
+          <MDBox mb={3} lineHeight={0}>
+            <MDTypography variant="h6" fontWeight="bold" color="info">
+              {description}
+            </MDTypography>
+          </MDBox>
+
+          <MDBox md={3} display="flex" justifyContent="space-between" alignItems="center">
+            {action.type === "internal" ? (
+              <>
+                <MDButton
+                  component={Link}
+                  to={action.route}
+                  variant="outlined"
+                  size="small"
+                  color="info"
+                >
+                  View Topic
+                </MDButton>
+
+                <MDButton
+                  // component={Link}
+                  // to={action.route}
+                  variant="outlined"
+                  size="small"
+                  color="error"
+                  onClick={onClickDel}
+                >
+                  Delete
+                </MDButton>
+              </>
+            ) : (
               <MDButton
-                component={Link}
-                to={action.route}
+                component="a"
+                href={action.route}
+                target="_blank"
+                rel="noreferrer"
                 variant="outlined"
                 size="small"
-                color="error"
+                color={action.color}
               >
-                Delete
+                {action.label}
               </MDButton>
-            </>
-          ) : (
-            <MDButton
-              component="a"
-              href={action.route}
-              target="_blank"
-              rel="noreferrer"
-              variant="outlined"
-              size="small"
-              color={action.color}
-            >
-              {action.label}
-            </MDButton>
 
 
-          )}
-          {/* <MDBox display="flex">{renderAuthors}</MDBox> */}
+            )}
+            {/* <MDBox display="flex">{renderAuthors}</MDBox> */}
+          </MDBox>
+
         </MDBox>
+      </Card>
 
-      </MDBox>
-    </Card>
+      <Dialog open={controlDel} onClose={handleCloseDelete}>
+        <DialogTitle>
+          <MDTypography
+            variant="h6"
+            fontWeight="bold"
+            color="info"
+            align="center"
+          >
+            Are you sure to delete ?
+          </MDTypography>
+        </DialogTitle>
+
+        <DialogActions>
+          <Button onClick={handleCloseDelete} >Cancel</Button>
+          <Button onClick={onDeleteTopic} >Yes</Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 }
 

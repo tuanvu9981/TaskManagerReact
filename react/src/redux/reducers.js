@@ -6,7 +6,11 @@ const initState = {
         avatarLink: undefined,
         email: undefined
     },
-    topic_id: undefined,
+    currentTopic: {
+        topic_id: undefined,
+        topicTitle: undefined
+    },
+    topicList: [],
     task_id: undefined
 }
 
@@ -21,6 +25,12 @@ const rootReducer = (state = initState, action) => {
 
         case 'logout':
             return initState;
+
+        case 'currentTPL':
+            return {
+                ...state,
+                topicList: action.payload
+            }
         default:
             return state;
     }
