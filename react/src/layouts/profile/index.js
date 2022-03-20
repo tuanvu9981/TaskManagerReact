@@ -155,12 +155,6 @@ function Overview() {
                         color: "info",
                         label: "view topic",
                       }}
-                      authors={[
-                        { image: team1, name: "Elena Morison" },
-                        { image: team2, name: "Ryan Milly" },
-                        { image: team3, name: "Nick Daniel" },
-                        { image: team4, name: "Peterson" },
-                      ]}
                     />
                   </Grid>
                 );
@@ -182,7 +176,6 @@ function Overview() {
       </DashboardLayout>
 
       <Dialog open={control} onClose={handleClose}>
-
         <DialogTitle>
           <MDTypography
             variant="h6"
@@ -209,6 +202,25 @@ function Overview() {
           <Button onClick={onCreateNewTopic} >Submit</Button>
         </DialogActions>
       </Dialog>
+
+      {/* Delete */}
+      {/* <Dialog open={controlDel} onClose={handleCloseDelete}>
+        <DialogTitle>
+          <MDTypography
+            variant="h6"
+            fontWeight="bold"
+            color="info"
+            align="center"
+          >
+            Are you sure to delete ?
+          </MDTypography>
+        </DialogTitle>
+
+        <DialogActions>
+          <Button onClick={handleCloseDelete} >Cancel</Button>
+          <Button onClick={onDeleteTopic} >Yes</Button>
+        </DialogActions>
+      </Dialog> */}
     </>
   );
 }

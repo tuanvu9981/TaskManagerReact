@@ -23,6 +23,7 @@ import PropTypes from "prop-types";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import Tooltip from "@mui/material/Tooltip";
+import Grid from "@mui/material/Grid";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -61,6 +62,7 @@ function DefaultProjectCard({ image, label, title, description, action, authors 
         overflow: "visible",
       }}
     >
+
       <MDBox position="relative" width="100.25%" shadow="xl" borderRadius="xl">
         <CardMedia
           src={image}
@@ -75,10 +77,13 @@ function DefaultProjectCard({ image, label, title, description, action, authors 
           }}
         />
       </MDBox>
+
       <MDBox mt={1} mx={0.5}>
+
         <MDTypography variant="button" fontWeight="regular" color="text" textTransform="capitalize">
           {label}
         </MDTypography>
+
         <MDBox mb={1}>
           {action.type === "internal" ? (
             <MDTypography
@@ -102,22 +107,36 @@ function DefaultProjectCard({ image, label, title, description, action, authors 
             </MDTypography>
           )}
         </MDBox>
+
         <MDBox mb={3} lineHeight={0}>
           <MDTypography variant="h6" fontWeight="bold" color="info">
             {description}
           </MDTypography>
         </MDBox>
-        <MDBox display="flex" justifyContent="space-between" alignItems="center">
+
+        <MDBox md={3} display="flex" justifyContent="space-between" alignItems="center">
           {action.type === "internal" ? (
-            <MDButton
-              component={Link}
-              to={action.route}
-              variant="outlined"
-              size="small"
-              color={action.color}
-            >
-              {action.label}
-            </MDButton>
+            <>
+              <MDButton
+                component={Link}
+                to={action.route}
+                variant="outlined"
+                size="small"
+                color="info"
+              >
+                View Topic
+              </MDButton>
+
+              <MDButton
+                component={Link}
+                to={action.route}
+                variant="outlined"
+                size="small"
+                color="error"
+              >
+                Delete
+              </MDButton>
+            </>
           ) : (
             <MDButton
               component="a"
@@ -130,9 +149,12 @@ function DefaultProjectCard({ image, label, title, description, action, authors 
             >
               {action.label}
             </MDButton>
+
+
           )}
-          <MDBox display="flex">{renderAuthors}</MDBox>
+          {/* <MDBox display="flex">{renderAuthors}</MDBox> */}
         </MDBox>
+
       </MDBox>
     </Card>
   );
