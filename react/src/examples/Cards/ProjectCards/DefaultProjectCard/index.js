@@ -15,8 +15,11 @@ Coded by www.creative-tim.com
 
 // react-router-dom components
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { setCurrentTopicList } from "../../../../redux/actions";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { personIdSelector } from "redux/selectors";
+import axios from "axios";
 
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
@@ -25,11 +28,8 @@ import PropTypes from "prop-types";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import Tooltip from "@mui/material/Tooltip";
-import Grid from "@mui/material/Grid";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Button } from "@mui/material";
 
@@ -38,9 +38,6 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 import MDAvatar from "components/MDAvatar";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { personIdSelector } from "redux/selectors";
 
 function DefaultProjectCard({ image, label, title, description, action, authors, topic_id }) {
 
@@ -188,7 +185,6 @@ function DefaultProjectCard({ image, label, title, description, action, authors,
               >
                 {action.label}
               </MDButton>
-
 
             )}
             {/* <MDBox display="flex">{renderAuthors}</MDBox> */}

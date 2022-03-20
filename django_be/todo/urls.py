@@ -29,7 +29,7 @@ urlpatterns = [
 
     [DONE] 'createNewTopic'
     [DONE] 'getAllTopicOfPerson'
-    'deleteOneTopic'
+    [DONE] 'deleteOneTopic'
     'updateTopicTitle'
     'getOneTopicDetail'
 

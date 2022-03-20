@@ -28,7 +28,6 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { TextField } from "@mui/material";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -82,7 +81,7 @@ function Overview() {
       </DashboardLayout>
     );
   }
-  //personId = 622b546cc1362bb9ff682b4f
+
   useEffect(() => {
     getAllTopic(currentPersonId);
   }, []);
@@ -101,7 +100,6 @@ function Overview() {
     // matching API of Django
     const response = await axios.get('http://localhost:8000/todo/getAllTopicOfPerson', { params: data });
     if (response.data.status === "OK") {
-      // setTopicList(response.data.topicList);
       dispatcher(setCurrentTopicList(response.data.topicList));
     }
   }
@@ -119,13 +117,13 @@ function Overview() {
     }
     const res = await axios.post('http://localhost:8000/todo/createNewTopic', data);
     if (res.data.status === "OK") {
-      // setTopicList([...topicList, res.data.topic]);
       dispatcher(setCurrentTopicList([...topicList, res.data.topic]));
     }
   }
 
   return (
     <>
+      {/* PART 1+2: LIST ALL TOPICS */}
       <DashboardLayout>
         <DashboardNavbar />
         <MDBox mb={2} />
@@ -182,6 +180,7 @@ function Overview() {
         <Footer />
       </DashboardLayout>
 
+      {/* PART 3: DIALOG */}
       <Dialog open={control} onClose={handleClose}>
         <DialogTitle>
           <MDTypography
@@ -209,25 +208,6 @@ function Overview() {
           <Button onClick={onCreateNewTopic} >Submit</Button>
         </DialogActions>
       </Dialog>
-
-      {/* Delete */}
-      {/* <Dialog open={controlDel} onClose={handleCloseDelete}>
-        <DialogTitle>
-          <MDTypography
-            variant="h6"
-            fontWeight="bold"
-            color="info"
-            align="center"
-          >
-            Are you sure to delete ?
-          </MDTypography>
-        </DialogTitle>
-
-        <DialogActions>
-          <Button onClick={handleCloseDelete} >Cancel</Button>
-          <Button onClick={onDeleteTopic} >Yes</Button>
-        </DialogActions>
-      </Dialog> */}
     </>
   );
 }
