@@ -13,6 +13,8 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
+import { useSelector } from 'react-redux';
+
 // @mui material components
 import Card from "@mui/material/Card";
 
@@ -22,18 +24,46 @@ import MDTypography from "components/MDTypography";
 
 // Billing page components
 import Bill from "layouts/billing/components/Bill";
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 function BillingInformation() {
+
+  const currentTopic = useSelector((state) => state.currentTopic);
+  const [taskList, setTaskList] = useState([]);
+
+  useEffect(() => {
+    getAllTaskByTopicId(currentTopic.topic_id);
+  }, []);
+
+  const getAllTaskByTopicId = async (tp_id) => {
+    const res = await axios.get('http://localhost:8000/todo/getAllTaskByTopicId', { params: { "topic_id": tp_id } });
+    if (res.data.status === "OK") {
+      setTaskList(res.data.taskList);
+    }
+  }
+
   return (
     <Card id="delete-account">
       <MDBox pt={3} px={2}>
-        <MDTypography variant="h6" fontWeight="medium">
-          Billing Information
+        <MDTypography variant="h4" fontWeight="medium" align="center">
+          {currentTopic.topicTitle}
         </MDTypography>
       </MDBox>
       <MDBox pt={1} pb={2} px={2}>
         <MDBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
-          <Bill
+          {taskList.map((task) => {
+            return (
+              <Bill
+                key={task.task_id}
+                name={task.taskTitle}
+                company={task.priority}
+                email={task.startDate}
+                vat={task.deadline}
+              />
+            )
+          })}
+          {/* <Bill
             name="oliver liam"
             company="viking burrito"
             email="oliver@burrito.com"
@@ -51,7 +81,7 @@ function BillingInformation() {
             email="ethan@fiber.com"
             vat="FRB1235476"
             noGutter
-          />
+          /> */}
         </MDBox>
       </MDBox>
     </Card>

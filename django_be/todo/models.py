@@ -56,6 +56,12 @@ class TopicElement(Document):
             "image": self.image,
         }
 
+    def to_list(self):
+        taskListJson = []
+        for task in self.taskList:
+            taskListJson.append(task.to_json())
+        return taskListJson
+
 """ This two class represents EmbeddedDocumentField & List """
 # class TaskElement(EmbeddedDocument):
 #     id = fields.ObjectIdField(default=ObjectId, primary_key=True)

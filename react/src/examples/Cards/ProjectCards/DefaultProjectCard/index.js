@@ -15,7 +15,7 @@ Coded by www.creative-tim.com
 
 // react-router-dom components
 import { Link } from "react-router-dom";
-import { setCurrentTopicList } from "../../../../redux/actions";
+import { setCurrentTopicList, setCurrentTopic } from "../../../../redux/actions";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { personIdSelector } from "redux/selectors";
@@ -48,6 +48,13 @@ function DefaultProjectCard({ image, label, title, description, action, authors,
 
   const handleCloseDelete = () => setControlDel(false);
   const onClickDel = () => setControlDel(true);
+  const onClickToTask = () => {
+    const currentTP = {
+      "topic_id": topic_id,
+      "topicTitle": title
+    }
+    dispatcher(setCurrentTopic(currentTP));
+  }
 
   const onDeleteTopic = async () => {
     setControlDel(false);
@@ -58,8 +65,8 @@ function DefaultProjectCard({ image, label, title, description, action, authors,
 
     const response = await axios.put('http://localhost:8000/todo/deleteOneTopic', data);
     if (response.data.status === "OK") {
-      const newTopicList = currentTopicList.filter((topic) => { 
-        return topic.topic_id !== data.topic_id 
+      const newTopicList = currentTopicList.filter((topic) => {
+        return topic.topic_id !== data.topic_id
       });
 
       dispatcher(setCurrentTopicList(newTopicList));
@@ -158,6 +165,7 @@ function DefaultProjectCard({ image, label, title, description, action, authors,
                   variant="outlined"
                   size="small"
                   color="info"
+                  onClick={onClickToTask}
                 >
                   View Topic
                 </MDButton>

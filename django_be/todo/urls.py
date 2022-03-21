@@ -11,7 +11,7 @@ urlpatterns = [
     path('getAllTopicOfPerson', TopicView.getAllTopicOfPerson),
     path('deleteOneTopic', TopicView.deleteOneTopic),
     path('updateTopicTitle', TopicView.updateTopicTitle),
-    path('getOneTopicDetail', TopicView.getOneTopicDetail),
+    path('getAllTaskByTopicId', TopicView.getAllTaskByTopicId),
 
     path('createNewTask', TaskView.createNewTask),
     path('getOneTaskDetail', TaskView.getOneTaskDetail),
@@ -31,7 +31,7 @@ urlpatterns = [
     [DONE] 'getAllTopicOfPerson'
     [DONE] 'deleteOneTopic'
     'updateTopicTitle'
-    'getOneTopicDetail'
+    'getAllTaskByTopicId'
 
     'createNewTask'
     'getOneTaskDetail'

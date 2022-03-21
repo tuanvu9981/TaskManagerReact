@@ -156,7 +156,7 @@ function Overview() {
                       description={tmp}
                       action={{
                         type: "internal",
-                        route: "/pages/profile/profile-overview",
+                        route: "/billing",
                         color: "info",
                         label: "view topic",
                       }}

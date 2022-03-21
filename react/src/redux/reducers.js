@@ -31,6 +31,11 @@ const rootReducer = (state = initState, action) => {
                 ...state,
                 topicList: action.payload
             }
+        case 'currentTP':
+            return {
+                ...state,
+                currentTopic: action.payload
+            }
         default:
             return state;
     }

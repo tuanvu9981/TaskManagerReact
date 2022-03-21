@@ -31,8 +31,11 @@ import PaymentMethod from "layouts/billing/components/PaymentMethod";
 import Invoices from "layouts/billing/components/Invoices";
 import BillingInformation from "layouts/billing/components/BillingInformation";
 import Transactions from "layouts/billing/components/Transactions";
+import { useParams } from "react-router-dom";
 
 function Billing() {
+  // const { topic_id } = useParams();
+
   return (
     <DashboardLayout>
       <DashboardNavbar absolute isMini />
@@ -74,7 +77,7 @@ function Billing() {
         </MDBox> */}
         <MDBox mb={3}>
           <Grid container spacing={3}>
-            <Grid item xs={12} md={10} ml={15}>
+            <Grid item xs={12} md={10} ml={12}>
               <BillingInformation />
             </Grid>
             {/* <Grid item xs={12} md={5}>

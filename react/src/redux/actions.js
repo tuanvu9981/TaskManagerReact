@@ -24,3 +24,10 @@ export const setCurrentTopicList = (newTopicList) => {
         payload: newTopicList
     }
 }
+
+export const setCurrentTopic = (currentTopic) => {
+    return {
+        type: "currentTP",
+        payload: currentTopic
+    }
+}

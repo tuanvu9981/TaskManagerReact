@@ -98,15 +98,16 @@ def updateTopicTitle(request):
     )
 
 @csrf_exempt
-def getOneTopicDetail(request):
+def getAllTaskByTopicId(request):
     if request.method == 'GET':
         topic_id = request.GET.get('topic_id')
-        topic = TopicElement.objects.get(topic_id=ObjectId(topic_id))
 
+        topic = TopicElement.objects.get(topic_id=ObjectId(topic_id))
+        print(topic.to_list())
         return JsonResponse(
             data={
                 "status" : "OK",
-                "topic" : topic.to_json()
+                "taskList" : topic.to_list()
             }
         )
     return JsonResponse(data={"status" : "ERROR"})

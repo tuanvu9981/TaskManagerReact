@@ -29,6 +29,7 @@ import MDBox from "components/MDBox";
 // Material Dashboard 2 React example components
 import Sidenav from "examples/Sidenav";
 import Configurator from "examples/Configurator";
+import Billing from "layouts/billing";
 
 // Material Dashboard 2 React themes
 import theme from "assets/theme";
@@ -149,6 +150,7 @@ export default function App() {
       <Routes>
         {getRoutes(routes)}
         <Route path="*" element={<Navigate to="/authentication/sign-in" />} />
+        {/* <Route path=":topicId" element={<Billing/>} /> */}
       </Routes>
     </ThemeProvider>
   );
