@@ -23,6 +23,11 @@ import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 // Material Dashboard 2 React context
 import { useMaterialUIController } from "context";
@@ -35,6 +40,7 @@ function Bill({ name, company, email, vat, noGutter }) {
     <MDBox
       component="li"
       display="flex"
+      flexDirection="row"
       justifyContent="space-between"
       alignItems="flex-start"
       bgColor={darkMode ? "transparent" : "grey-100"}
@@ -89,6 +95,22 @@ function Bill({ name, company, email, vat, noGutter }) {
           </MDTypography>
         </MDTypography>
       </MDBox>
+
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2a-content"
+          id="panel2a-header"
+        >
+          <Typography>Accordion 2</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+            malesuada lacus ex, sit amet blandit leo lobortis eget.
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
     </MDBox>
   );
 }

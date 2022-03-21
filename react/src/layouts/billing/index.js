@@ -37,9 +37,10 @@ function Billing() {
     <DashboardLayout>
       <DashboardNavbar absolute isMini />
       <MDBox mt={8}>
-        <MDBox mb={3}>
+        {/* <MDBox mb={3}>
           <Grid container spacing={3}>
             <Grid item xs={12} lg={8}>
+
               <Grid container spacing={3}>
                 <Grid item xs={12} xl={6}>
                   <MasterCard number={4562112245947852} holder="jack peterson" expires="11/22" />
@@ -63,26 +64,27 @@ function Billing() {
                 <Grid item xs={12}>
                   <PaymentMethod />
                 </Grid>
+
               </Grid>
             </Grid>
             <Grid item xs={12} lg={4}>
               <Invoices />
             </Grid>
           </Grid>
-        </MDBox>
+        </MDBox> */}
         <MDBox mb={3}>
           <Grid container spacing={3}>
-            <Grid item xs={12} md={7}>
+            <Grid item xs={12} md={10} ml={15}>
               <BillingInformation />
             </Grid>
-            <Grid item xs={12} md={5}>
+            {/* <Grid item xs={12} md={5}>
               <Transactions />
-            </Grid>
+            </Grid> */}
           </Grid>
         </MDBox>
       </MDBox>
       <Footer />
-    </DashboardLayout>
+    </DashboardLayout >
   );
 }
 
